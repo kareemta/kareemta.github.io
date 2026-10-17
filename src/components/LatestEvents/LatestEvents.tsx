@@ -1,4 +1,6 @@
+import EmptyState from "@/components/EmptyState/EmptyState";
 import EventCard from "@/components/EventCard/EventCard";
+import ReviewCard from "@/components/ReviewCard/ReviewCard";
 import SectionHeading from "@/components/SectionHeading/SectionHeading";
 import type { FeedEvent } from "@/lib/feed";
 import styles from "./LatestEvents.module.css";
@@ -12,19 +14,23 @@ export default function LatestEvents({ events }: { events: FeedEvent[] }) {
         <ol className={styles.list}>
           {events.map((event) => (
             <li key={`${event.kind}:${event.title}`}>
-              <EventCard event={event} />
+              {event.review ? (
+                <ReviewCard
+                  review={event.review}
+                  variant="compact"
+                  headingLevel={3}
+                  href={event.href}
+                />
+              ) : (
+                <EventCard event={event} />
+              )}
             </li>
           ))}
         </ol>
       ) : (
-        <div className={styles.empty}>
-          <p className={styles.emptyStream} aria-hidden="true">
-            0 events · stream idle
-          </p>
-          <p className={styles.emptyText}>
-            Nothing here yet. New reviews, trips, posts and projects will show up here.
-          </p>
-        </div>
+        <EmptyState stream="0 events · stream idle">
+          Nothing here yet. New reviews, trips, posts and projects will show up here.
+        </EmptyState>
       )}
     </section>
   );

@@ -1,0 +1,43 @@
+.cover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--color-line);
+}
+
+.image {
+  object-fit: cover;
+}
+
+/* Typographic fallback: sizes scale with the cover's own width (container units). */
+.fallback {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 10%;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  container-type: inline-size;
+}
+
+.type {
+  font-family: var(--font-mono);
+  font-size: max(0.625rem, 9cqi);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: max(0.75rem, 14cqi);
+  font-weight: var(--weight-bold);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  line-clamp: 6;
+}

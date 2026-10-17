@@ -3,18 +3,18 @@
  * (review, trip, post, project), newest first. Server-only (reads content).
  *
  * Each item carries both a topic-style label (`review.book`) and a plain-English
- * one ("Book review"), per the spec's vocabulary rule. `kind` lets a page swap in
- * a richer card for one kind later (e.g. <ReviewCard> in task 3.1).
+ * one ("Book review"), per the spec's vocabulary rule. Review events also carry
+ * the full review so the feed renders <ReviewCard> for them.
  */
 import {
   getPosts,
   getProjects,
   getReviews,
   getTravel,
-  offsetLabel,
   publishable,
-  type ReviewType,
+  type Review,
 } from "@/lib/content";
+import { formatRating, offsetLabel, REVIEW_TYPE_LABEL } from "@/lib/format";
 
 export type FeedKind = "review" | "trip" | "post" | "project";
 
@@ -33,12 +33,8 @@ export type FeedEvent = {
   detail?: string;
   /** Section page the item links to. */
   href: string;
-};
-
-const REVIEW_LABEL: Record<ReviewType, string> = {
-  book: "Book review",
-  tv: "TV review",
-  film: "Film review",
+  /** The review itself, for kind === "review". */
+  review?: Review;
 };
 
 /**
@@ -59,12 +55,13 @@ export function getLatestEvents(): FeedEvent[] {
     events.push({
       kind: "review",
       topic: `review.${review.type}`,
-      label: REVIEW_LABEL[review.type],
+      label: `${REVIEW_TYPE_LABEL[review.type]} review`,
       offset: offsetLabel(review.offset),
       date: review.dateReviewed,
       title: review.title,
-      detail: `${review.creator} · ${review.rating.toFixed(1)}/10`,
+      detail: `${review.creator} · ${formatRating(review.rating)}/10`,
       href: "/reviews/",
+      review,
     });
   }
 

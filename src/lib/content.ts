@@ -11,6 +11,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { z } from "zod";
+import { formatRating, offsetLabel, reviewTypes } from "@/lib/format";
 import type { LogLine } from "@/lib/logLines";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
@@ -125,7 +126,7 @@ export const siteSchema = z.object({
   }),
 });
 
-export const reviewTypes = ["book", "tv", "film"] as const;
+export { reviewTypes } from "@/lib/format";
 
 export const reviewSchema = z
   .object({
@@ -228,7 +229,7 @@ export const postIndexSchema = z
 
 export type Site = z.infer<typeof siteSchema>;
 export type Link = z.infer<typeof link>;
-export type ReviewType = (typeof reviewTypes)[number];
+export type { ReviewType } from "@/lib/format";
 export type Review = z.infer<typeof reviewSchema>;
 export type Place = z.infer<typeof travelSchema>;
 export type Project = z.infer<typeof projectSchema>;
@@ -390,8 +391,6 @@ export function publishable<T extends { placeholder?: boolean }>(items: T[]): T[
   return items.filter((item) => !item.placeholder && !hasTodo(item));
 }
 
-/** Event offset as shown on the site, e.g. 42 -> "#0042". */
-export const offsetLabel = (n: number) => `#${String(n).padStart(4, "0")}`;
 
 /**
  * Real-content lines for the background <LogStream>, e.g.
@@ -404,7 +403,7 @@ export function getContentLogLines(): LogLine[] {
   return [
     ...real(getReviews()).map((r) => ({
       topic: `review.${r.type}`,
-      message: `${offsetLabel(r.offset)} "${r.title}" · ${r.creator} · ${r.rating.toFixed(1)}/10`,
+      message: `${offsetLabel(r.offset)} "${r.title}" · ${r.creator} · ${formatRating(r.rating)}/10`,
     })),
     ...real(getTravel()).map((p) => ({
       topic: "travel.visited",
