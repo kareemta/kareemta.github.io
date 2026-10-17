@@ -318,6 +318,25 @@ export function getExperience(): Experience {
   return loadJson("experience.json", experienceSchema);
 }
 
+/**
+ * Site path of the resume PDF, or null if the file isn't in public/ yet. Checked
+ * at build time so the page never renders a broken download link.
+ */
+export function getResumeUrl(): string | null {
+  const url = getExperience().resumePdf ?? "/resume.pdf";
+  return fs.existsSync(path.join(process.cwd(), "public", url)) ? url : null;
+}
+
+/** Sort key for an entry's end: "present" sorts after every real month. */
+const endKey = (end: ExperienceEntry["end"]) => (end === "present" ? "9999-12" : end);
+
+/** Real (non-placeholder) experience entries, most recent first. */
+export function getExperienceEntries(): ExperienceEntry[] {
+  return publishable(getExperience().entries).toSorted(
+    (a, b) => endKey(b.end).localeCompare(endKey(a.end)) || b.start.localeCompare(a.start),
+  );
+}
+
 const POSTS_INDEX = "posts/index.json";
 
 /** Loads posts/index.json and checks it matches the .md files one-to-one. */

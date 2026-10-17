@@ -20,3 +20,12 @@ export const offsetLabel = (n: number) => `#${String(n).padStart(4, "0")}`;
 /** Rating out of 10 as written: "8" or "8.5" (at most one decimal). */
 export const formatRating = (rating: number) =>
   Number.isInteger(rating) ? String(rating) : rating.toFixed(1);
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/** "2024-06" -> "Jun 2024"; "present" -> "Present". Locale-independent on purpose. */
+export function formatYearMonth(value: string): string {
+  if (value === "present") return "Present";
+  const [year, month] = value.split("-");
+  return `${MONTHS[Number(month) - 1] ?? ""} ${year}`.trim();
+}
