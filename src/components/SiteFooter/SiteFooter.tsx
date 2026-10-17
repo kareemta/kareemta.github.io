@@ -18,7 +18,7 @@ export default function SiteFooter() {
             <ul className={styles.links}>
               {links.map((link) => (
                 <li key={link.url}>
-                  <a href={link.url} className={styles.link} rel="me noopener">
+                  <a href={link.url} className={styles.link} rel="me">
                     {link.label}
                   </a>
                 </li>

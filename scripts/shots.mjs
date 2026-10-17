@@ -209,6 +209,10 @@ async function main() {
               throw new Error(`expected HTTP ${expected}, got ${response?.status()}`);
             }
             await page.evaluate(() => document.fonts.ready);
+            // The log-stream canvas loads after hydration; give it a moment to draw its
+            // (static, reduced-motion) frame so it shows up in the shot.
+            await page.waitForSelector("canvas", { timeout: 3000 }).catch(() => {});
+            await page.waitForTimeout(300);
             await page.screenshot({ path: path.join(SHOTS_DIR, file), fullPage: true });
             count++;
             console.log(`  ok  ${file}`);

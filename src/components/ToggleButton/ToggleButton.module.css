@@ -27,7 +27,7 @@
 
 .state {
   display: inline-block;
-  min-width: 3ch; /* reserve room so the button does not resize after hydration */
+  /* min-width is set inline (stateWidth) so the button does not resize after hydration */
   color: var(--color-muted);
   text-align: left;
 }

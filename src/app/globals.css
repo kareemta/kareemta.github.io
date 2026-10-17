@@ -24,6 +24,9 @@
   --color-accent: #2f5bea;
   --color-on-accent: #ffffff;
   --color-focus: var(--color-accent);
+  /* Log stream mask level behind the content column (0-1). Light text tolerates
+     the least ink behind it, so light fades harder. See LogStream.module.css. */
+  --stream-floor: 0.33;
   color-scheme: light;
 
   /* Font families (variables come from next/font in src/app/fonts.ts) */
@@ -86,6 +89,7 @@
     --color-line: #2a313c;
     --color-accent: #7c9bff;
     --color-on-accent: #0d1117;
+    --stream-floor: 0.6;
     color-scheme: dark;
   }
 }
@@ -99,6 +103,7 @@
   --color-line: #2a313c;
   --color-accent: #7c9bff;
   --color-on-accent: #0d1117;
+  --stream-floor: 0.6;
   color-scheme: dark;
 }
 

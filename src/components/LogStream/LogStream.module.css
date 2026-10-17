@@ -1,0 +1,50 @@
+/*
+ * Decorative background layer. Glyphs are drawn in solid ink/accent and the whole
+ * layer is faded with opacity: 9% on home, 6% on inner pages (spec: 6–10%).
+ *
+ * Mask: horizontally the stream drops to --stream-floor across the content
+ * column (the Container's width) and is full strength only outside it;
+ * vertically it fades in from the bottom and out at the top. --stream-floor is
+ * a per-theme token chosen so text over the stream keeps WCAG AA (globals.css).
+ */
+.stream {
+  --edge: max(0px, (100vw - var(--content-max)) / 2);
+  --floor: rgb(0 0 0 / var(--stream-floor));
+
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  mask-image:
+    linear-gradient(to bottom, transparent 0, #000 25%, #000 85%, transparent 100%),
+    linear-gradient(
+      to right,
+      #000 calc(var(--edge) - 8rem),
+      var(--floor) var(--edge),
+      var(--floor) calc(100% - var(--edge)),
+      #000 calc(100% - var(--edge) + 8rem)
+    );
+  mask-composite: intersect;
+}
+
+.home {
+  opacity: 0.09;
+}
+
+.inner {
+  opacity: 0.06;
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-mono); /* read by the canvas for its font */
+}
+
+@media print {
+  .stream {
+    display: none;
+  }
+}

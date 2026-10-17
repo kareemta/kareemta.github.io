@@ -11,6 +11,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { z } from "zod";
+import type { LogLine } from "@/lib/logLines";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 
@@ -371,3 +372,44 @@ export function validateAllContent(): void {
   getExperience();
   getPostIndex();
 }
+
+/* ------------------------------------------------------------------ */
+/* Log stream                                                          */
+/* ------------------------------------------------------------------ */
+
+/** True if any field of a content entry still holds TODO(user). */
+function hasTodo(entry: unknown): boolean {
+  return JSON.stringify(entry).includes(TODO);
+}
+
+const offsetLabel = (n: number) => `#${String(n).padStart(4, "0")}`;
+
+/**
+ * Real-content lines for the background <LogStream>, e.g.
+ * `review.book  #0042 "Dune" · Frank Herbert · 9.0/10`. Placeholder and
+ * TODO(user) entries are skipped so no made-up facts ever appear.
+ */
+export function getContentLogLines(): LogLine[] {
+  const real = <T extends { placeholder?: boolean }>(items: T[]) =>
+    items.filter((item) => !item.placeholder && !hasTodo(item));
+
+  return [
+    ...real(getReviews()).map((r) => ({
+      topic: `review.${r.type}`,
+      message: `${offsetLabel(r.offset)} "${r.title}" · ${r.creator} · ${r.rating.toFixed(1)}/10`,
+    })),
+    ...real(getTravel()).map((p) => ({
+      topic: "travel.visited",
+      message: `${p.name}, ${p.country} · ${p.year}`,
+    })),
+    ...real(getPosts()).map((p) => ({
+      topic: "post.published",
+      message: `"${p.title}" · ${p.date}`,
+    })),
+    ...real(getProjects()).map((p) => ({
+      topic: "project.added",
+      message: p.tech.length ? `${p.name} · ${p.tech.join(", ")}` : p.name,
+    })),
+  ];
+}
+

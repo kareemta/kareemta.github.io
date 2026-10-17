@@ -1,0 +1,19 @@
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+}
+
+.wordmark:hover .slash {
+  color: var(--color-ink);
+}
+
+.slash {
+  color: var(--color-accent);
+  transition: color var(--duration-fast) var(--ease-out);
+}

@@ -1,6 +1,6 @@
-import Link from "next/link";
 import Container from "@/components/Container/Container";
 import SiteNav, { type NavItem } from "@/components/SiteNav/SiteNav";
+import Wordmark from "@/components/Wordmark/Wordmark";
 import styles from "./SiteHeader.module.css";
 
 /** Site sections, in the order they appear in the nav. Pages arrive in Phase 3. */
@@ -17,10 +17,7 @@ export default function SiteHeader() {
   return (
     <header className={styles.header}>
       <Container className={styles.inner}>
-        <Link href="/" className={styles.wordmark}>
-          kareem<span className={styles.slash}>/</span>
-          <span className="visually-hidden"> home</span>
-        </Link>
+        <Wordmark />
         <SiteNav items={NAV_ITEMS} />
       </Container>
     </header>

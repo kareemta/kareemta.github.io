@@ -8,7 +8,8 @@
  * localStorage and re-applied before first paint by streamInitScript, so a
  * visitor who paused the stream never sees it start moving on the next page.
  *
- * Under prefers-reduced-motion the stream is frozen regardless of this flag.
+ * Under prefers-reduced-motion the stream is frozen regardless of this flag;
+ * isStreamFrozen() / subscribeStreamFrozen() combine the two for <LogStream>.
  */
 export const STREAM_STORAGE_KEY = "stream";
 export const STREAM_ATTRIBUTE = "data-stream";
@@ -38,6 +39,24 @@ export function subscribeStream(onChange: () => void): () => void {
     attributeFilter: [STREAM_ATTRIBUTE],
   });
   return () => observer.disconnect();
+}
+
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+/** True when the stream must not move: paused by the visitor, or reduced motion is on. */
+export function isStreamFrozen(): boolean {
+  return isStreamPaused() || window.matchMedia(REDUCED_MOTION_QUERY).matches;
+}
+
+/** Like subscribeStream, but also fires when the reduced-motion setting changes. */
+export function subscribeStreamFrozen(onChange: () => void): () => void {
+  const media = window.matchMedia(REDUCED_MOTION_QUERY);
+  media.addEventListener("change", onChange);
+  const unsubscribe = subscribeStream(onChange);
+  return () => {
+    media.removeEventListener("change", onChange);
+    unsubscribe();
+  };
 }
 
 /** Inline <head> script: restore a stored pause before first paint. Plain ES5. */
