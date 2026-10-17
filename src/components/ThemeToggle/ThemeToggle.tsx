@@ -1,8 +1,8 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import ToggleButton from "@/components/ToggleButton/ToggleButton";
 import { THEME_STORAGE_KEY, isTheme, type Theme } from "@/lib/theme";
-import styles from "./ThemeToggle.module.css";
 
 const DARK_QUERY = "(prefers-color-scheme: dark)";
 
@@ -37,7 +37,7 @@ function getServerTheme(): Theme | null {
  */
 export default function ThemeToggle() {
   const theme = useSyncExternalStore(subscribe, getEffectiveTheme, getServerTheme);
-  const isDark = theme === "dark";
+  const isDark = theme === null ? null : theme === "dark";
 
   function toggle() {
     const next: Theme = getEffectiveTheme() === "dark" ? "light" : "dark";
@@ -49,12 +49,5 @@ export default function ThemeToggle() {
     }
   }
 
-  return (
-    <button type="button" className={styles.toggle} aria-pressed={isDark} onClick={toggle}>
-      <span className={styles.label}>Dark mode</span>
-      <span className={styles.state} aria-hidden="true">
-        {theme === null ? "" : isDark ? "on" : "off"}
-      </span>
-    </button>
-  );
+  return <ToggleButton label="Dark mode" pressed={isDark} stateText={isDark ? "on" : "off"} onClick={toggle} />;
 }

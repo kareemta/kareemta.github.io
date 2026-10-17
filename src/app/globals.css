@@ -122,6 +122,8 @@ body {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   background: var(--color-bg);
   color: var(--color-ink);
@@ -130,6 +132,16 @@ body {
   line-height: var(--leading-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Shell: header, main and footer stack; main grows so the footer sits at the bottom. */
+#main {
+  flex: 1 0 auto;
+  padding-block: var(--space-7);
+}
+
+#main:focus {
+  outline: none; /* focused programmatically by the skip link, not by the user */
 }
 
 h1,

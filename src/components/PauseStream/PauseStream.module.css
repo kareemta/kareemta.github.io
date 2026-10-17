@@ -1,0 +1,10 @@
+.wrap {
+  display: contents;
+}
+
+/* The stream is frozen under reduced motion, so the control has nothing to do. */
+@media (prefers-reduced-motion: reduce) {
+  .wrap {
+    display: none;
+  }
+}
