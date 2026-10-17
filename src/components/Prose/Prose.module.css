@@ -108,8 +108,10 @@
   outline-offset: 2px;
 }
 
+/* Tables scroll sideways inside their own box, never the page. */
 .prose :global(table) {
   display: block;
+  width: max-content;
   max-width: 100%;
   overflow-x: auto;
   border-collapse: collapse;
@@ -121,4 +123,24 @@
   padding: var(--space-2) var(--space-3);
   border: var(--border-width) solid var(--color-line);
   text-align: left;
+}
+
+.prose :global(th) {
+  background: var(--color-surface);
+  font-weight: var(--weight-bold);
+}
+
+/* GFM task lists */
+.prose :global(.contains-task-list) {
+  padding-left: 0;
+  list-style: none;
+}
+
+.prose :global(.task-list-item input) {
+  margin: 0 var(--space-2) 0 0;
+  accent-color: var(--color-accent);
+}
+
+.prose :global(del) {
+  color: var(--color-muted);
 }

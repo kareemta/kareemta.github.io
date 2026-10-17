@@ -125,8 +125,11 @@ export const siteSchema = z.object({
   bio: z.array(nonEmpty).min(1),
   now: nonEmpty,
   location: nonEmpty.optional(),
-  contact: z.object({
-    email: orTodo(z.email()).optional(),
+  /**
+   * Strict on purpose: no email field. SITE_SPEC.md section 8 keeps the email
+   * private, and this repo is public, so an email here would leak via GitHub.
+   */
+  contact: z.strictObject({
     links: z.array(link),
   }),
 });
@@ -421,10 +424,13 @@ const WORDS_PER_MINUTE = 230;
 
 /**
  * Reading time in whole minutes (at least 1). Counts words in the prose; code
- * blocks are skipped since people scan rather than read them.
+ * blocks (``` or ~~~ fences) are skipped since people scan rather than read them.
  */
 export function readingMinutes(body: string): number {
-  const prose = body.replace(/```[\s\S]*?```/g, " ").replace(/<[^>]+>/g, " ");
+  const prose = body
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/~~~[\s\S]*?~~~/g, " ")
+    .replace(/<[^>]+>/g, " ");
   const words = prose.match(/[\p{L}\p{N}'’-]+/gu)?.length ?? 0;
   return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
 }

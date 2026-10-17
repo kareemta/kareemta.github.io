@@ -1,0 +1,11 @@
+.resume {
+  margin: var(--space-6) 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.resume a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
