@@ -1,0 +1,37 @@
+.page {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.hero {
+  max-width: var(--measure);
+}
+
+.role {
+  margin: 0 0 var(--space-3);
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.name {
+  margin-bottom: var(--space-5);
+}
+
+.bio {
+  margin: 0;
+  font-size: var(--text-lg);
+}
+
+.now {
+  max-width: var(--measure);
+  padding: var(--space-5);
+  border: var(--border-width) solid var(--color-line);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.nowText {
+  margin: 0;
+}

@@ -12,8 +12,9 @@ function getServerPaused(): boolean | null {
 /**
  * Footer control that pauses the background log stream (spec: "a small pause
  * stream control in the footer"). Accessible name "Pause stream" with
- * aria-pressed=true while paused; sighted users see "[live]" or "[paused]". Hidden under prefers-reduced-motion, where the
- * stream is always frozen and the button would do nothing.
+ * aria-pressed=true while paused; sighted users see "[live]" or "[paused]".
+ * Hidden under prefers-reduced-motion, where the stream is always frozen and
+ * the button would do nothing.
  */
 export default function PauseStream() {
   const paused = useSyncExternalStore(subscribeStream, isStreamPaused, getServerPaused);

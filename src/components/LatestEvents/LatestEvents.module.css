@@ -1,0 +1,26 @@
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.empty {
+  padding: var(--space-5);
+  border: var(--border-width) dashed var(--color-muted);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.emptyStream {
+  margin: 0 0 var(--space-1);
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.emptyText {
+  margin: 0;
+}

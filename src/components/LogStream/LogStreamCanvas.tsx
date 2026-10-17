@@ -14,6 +14,7 @@ const CONTENT_SHARE = 0.3; // fraction of lines taken from real content, when th
 const FRAME_MS = 1000 / 30 - 4; // redraw at most ~30 fps (with slack for 60 Hz jitter): plenty for 20 px/s
 const MAX_DT_S = 0.1; // a long frame never makes lines jump
 const PAD_X = 16;
+const MAX_DPR = 2; // sharper than 2x costs fill rate for no visible gain on faint text
 const STAMP_COLS = 14; // "HH:MM:SS.mmm" plus a gap
 const TOPIC_COLS = 22;
 const LINE_COLS = 84; // width of one log column, in characters; wide screens fit several
@@ -78,21 +79,39 @@ export default function LogStreamCanvas({ lines }: { lines: LogLine[] }) {
     let nextSpawnT = 0;
     let rows: Row[] = [];
 
-    const spawn = (at: number) => {
+    const makeRow = (at: number): Row => {
       const line = nextLine();
       const realMs = Date.now() + (at - t) * 1000;
-      rows.push({ spawnT: at, lane: Math.random(), stamp: stampFor(realMs), topic: line.topic, message: line.message });
+      return { spawnT: at, lane: Math.random(), stamp: stampFor(realMs), topic: line.topic, message: line.message };
     };
+    const spawn = (at: number) => rows.push(makeRow(at));
+
+    /** Oldest spawn time still on screen for the current height. */
+    const visibleSince = () => t - (height + FONT_PX * 2) / SPEED_PX_PER_S;
 
     /** Fill the screen with lines that "already arrived", so it never starts empty. */
     const prefill = () => {
       rows = [];
-      let at = t - (height + FONT_PX * 2) / SPEED_PX_PER_S;
+      let at = visibleSince();
       while (at <= t) {
         spawn(at);
         at += nextGap();
       }
       nextSpawnT = at;
+    };
+
+    /**
+     * After the canvas grows taller, add older lines above the oldest one so the new
+     * area at the top is filled. Existing lines are kept as they are (no reshuffle).
+     */
+    const backfill = () => {
+      const older: Row[] = [];
+      let at = (rows[0]?.spawnT ?? t) - nextGap();
+      while (at >= visibleSince()) {
+        older.push(makeRow(at));
+        at -= nextGap();
+      }
+      if (older.length) rows = [...older.reverse(), ...rows];
     };
 
     const setFont = () => {
@@ -101,14 +120,32 @@ export default function LogStreamCanvas({ lines }: { lines: LogLine[] }) {
       charW = ctx.measureText("0").width || FONT_PX * 0.6;
     };
 
-    const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
-      width = canvas.clientWidth;
-      height = canvas.clientHeight;
-      canvas.width = Math.round(width * dpr);
-      canvas.height = Math.round(height * dpr);
+    /** True once the canvas has had a real size and the first screen was filled. */
+    let ready = false;
+
+    /**
+     * Apply a new CSS size (from the ResizeObserver) or a new pixel ratio. Sizes under
+     * 2px are transient layout states (e.g. mid full-page screenshot) and are ignored.
+     * Lines stay anchored to the bottom; growing only adds older lines on top.
+     */
+    const applySize = (w: number, h: number) => {
+      if (w < 2 || h < 2) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+      const oldHeight = height;
+      width = w;
+      height = h;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       setFont(); // resizing a canvas resets its context state
+      if (!ready) {
+        ready = true;
+        prefill();
+        sync();
+      } else if (height > oldHeight) {
+        backfill();
+      }
+      draw();
     };
 
     const draw = () => {
@@ -134,7 +171,7 @@ export default function LogStreamCanvas({ lines }: { lines: LogLine[] }) {
         nextSpawnT += nextGap();
       }
       // Rows are in spawn order, so the ones that drifted off the top are at the front.
-      const cutoff = t - (height + FONT_PX * 2) / SPEED_PX_PER_S;
+      const cutoff = visibleSince();
       let drop = 0;
       while (drop < rows.length && rows[drop].spawnT < cutoff) drop++;
       if (drop) rows = rows.slice(drop);
@@ -161,7 +198,7 @@ export default function LogStreamCanvas({ lines }: { lines: LogLine[] }) {
       rafId = 0;
     };
     const sync = () => {
-      if (isStreamFrozen() || document.hidden) stop();
+      if (!ready || isStreamFrozen() || document.hidden) stop();
       else start();
     };
 
@@ -178,27 +215,35 @@ export default function LogStreamCanvas({ lines }: { lines: LogLine[] }) {
       attributeFilter: ["data-theme"],
     });
 
-    /* Resize and devicePixelRatio changes (browser zoom also fires resize). */
-    const onResize = () => {
-      const oldHeight = height;
-      resize();
-      // Lines stay anchored to the bottom; if the window grew a lot, refill the top.
-      if (height > oldHeight + FONT_PX * 4) prefill();
-      draw();
+    /* Size from the canvas's real laid-out box, not the window. */
+    const resizeObserver = new ResizeObserver((entries) => {
+      const box = entries[entries.length - 1].contentRect;
+      applySize(box.width, box.height);
+    });
+    resizeObserver.observe(canvas);
+
+    /* devicePixelRatio changes (moving to another monitor, zoom) via a resolution query
+       that is re-armed for the new ratio each time it fires. */
+    let dprQuery: MediaQueryList | null = null;
+    const watchDpr = () => {
+      dprQuery?.removeEventListener("change", onDprChange);
+      dprQuery = window.matchMedia(`(resolution: ${window.devicePixelRatio || 1}dppx)`);
+      dprQuery.addEventListener("change", onDprChange);
     };
-    window.addEventListener("resize", onResize);
+    function onDprChange() {
+      watchDpr();
+      applySize(width, height); // same CSS size, new backing-store resolution
+    }
+    watchDpr();
     document.addEventListener("visibilitychange", sync);
     const unsubscribeFrozen = subscribeStreamFrozen(sync);
 
-    resize();
-    prefill();
-    draw();
-    sync();
+    // First size, fill and start happen in the first ResizeObserver callback.
 
     // Redraw once the web font is ready so the first frame isn't stuck in a fallback font.
     let alive = true;
     document.fonts?.ready.then(() => {
-      if (!alive) return;
+      if (!alive || !ready) return;
       setFont();
       draw();
     });
@@ -208,7 +253,8 @@ export default function LogStreamCanvas({ lines }: { lines: LogLine[] }) {
       stop();
       darkQuery.removeEventListener("change", onTheme);
       themeObserver.disconnect();
-      window.removeEventListener("resize", onResize);
+      resizeObserver.disconnect();
+      dprQuery?.removeEventListener("change", onDprChange);
       document.removeEventListener("visibilitychange", sync);
       unsubscribeFrozen();
     };

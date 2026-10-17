@@ -382,7 +382,16 @@ function hasTodo(entry: unknown): boolean {
   return JSON.stringify(entry).includes(TODO);
 }
 
-const offsetLabel = (n: number) => `#${String(n).padStart(4, "0")}`;
+/**
+ * Entries that are safe to show publicly: not a placeholder and no TODO(user)
+ * anywhere. Use this wherever content is surfaced outside its own page.
+ */
+export function publishable<T extends { placeholder?: boolean }>(items: T[]): T[] {
+  return items.filter((item) => !item.placeholder && !hasTodo(item));
+}
+
+/** Event offset as shown on the site, e.g. 42 -> "#0042". */
+export const offsetLabel = (n: number) => `#${String(n).padStart(4, "0")}`;
 
 /**
  * Real-content lines for the background <LogStream>, e.g.
@@ -390,8 +399,7 @@ const offsetLabel = (n: number) => `#${String(n).padStart(4, "0")}`;
  * TODO(user) entries are skipped so no made-up facts ever appear.
  */
 export function getContentLogLines(): LogLine[] {
-  const real = <T extends { placeholder?: boolean }>(items: T[]) =>
-    items.filter((item) => !item.placeholder && !hasTodo(item));
+  const real = publishable;
 
   return [
     ...real(getReviews()).map((r) => ({

@@ -12,7 +12,12 @@
   --floor: rgb(0 0 0 / var(--stream-floor));
 
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* Large viewport height: a phone's collapsing address bar doesn't resize the layer. */
+  height: 100vh;
+  height: 100lvh;
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
@@ -28,7 +33,18 @@
   mask-composite: intersect;
 }
 
+/* Phones: the content column is the whole screen, so use the gentler narrow floor
+   to keep the hero text clearly in front. */
+@media (max-width: 48rem) {
+  .stream {
+    --floor: rgb(0 0 0 / var(--stream-floor-narrow));
+  }
+}
+
 .home {
+  /* AA guard: with light --stream-floor 0.33 this gives ~3% ink behind the content
+     column, which leaves light accent text at ~4.59:1, a thin margin over 4.5.
+     Raising this value (or the light floor) breaks AA for links. */
   opacity: 0.09;
 }
 
