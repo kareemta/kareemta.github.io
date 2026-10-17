@@ -1,0 +1,22 @@
+{
+  "entries": [
+    {
+      "kind": "work",
+      "org": "Ford",
+      "title": "TODO(user)",
+      "start": "TODO(user)",
+      "end": "present",
+      "summary": ["TODO(user)"],
+      "placeholder": true
+    },
+    {
+      "kind": "education",
+      "org": "TODO(user)",
+      "title": "TODO(user)",
+      "start": "TODO(user)",
+      "end": "TODO(user)",
+      "summary": ["TODO(user)"],
+      "placeholder": true
+    }
+  ]
+}

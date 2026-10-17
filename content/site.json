@@ -1,0 +1,15 @@
+{
+  "displayName": "TODO(user)",
+  "headline": "SWE @ Ford",
+  "tagline": "Backend engineer working on streaming data infrastructure and internal platforms.",
+  "bio": "Software engineer with two years of experience, mostly backend and full-stack. Interested in AI, big data, streaming and distributed systems. Outside of work: traveling, basketball, soccer, running and lifting.",
+  "now": "Working at Ford on streaming data infrastructure and internal platforms.",
+  "location": "TODO(user)",
+  "contact": {
+    "email": "TODO(user)",
+    "links": [
+      { "label": "LinkedIn", "url": "TODO(user)" },
+      { "label": "GitHub", "url": "TODO(user)" }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "placeholder-review",
+    "offset": 1,
+    "title": "TODO(user)",
+    "type": "book",
+    "creator": "TODO(user)",
+    "year": 0,
+    "rating": 0,
+    "dateReviewed": "TODO(user)",
+    "take": "TODO(user)",
+    "placeholder": true
+  }
+]
