@@ -116,7 +116,7 @@ export const siteSchema = z.object({
   displayName: nonEmpty,
   headline: nonEmpty,
   tagline: nonEmpty,
-  bio: nonEmpty,
+  bio: z.array(nonEmpty).min(1),
   now: nonEmpty,
   location: nonEmpty.optional(),
   contact: z.object({

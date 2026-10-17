@@ -14,7 +14,11 @@ export default function Home() {
         <h1 id="hero-name" className={styles.name}>
           {site.displayName}
         </h1>
-        <p className={styles.bio}>{site.bio}</p>
+        <ul className={styles.bio}>
+          {site.bio.map((line) => (
+            <li key={line}>{line}</li>
+          ))}
+        </ul>
       </section>
 
       <section className={styles.now} aria-labelledby="now-heading">
