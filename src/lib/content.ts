@@ -43,7 +43,12 @@ const publicPath = (dir: string, ext: RegExp) =>
       new RegExp(`^/${dir}/[A-Za-z0-9._-]+$`),
       `Expected a path like /${dir}/file-name`,
     )
-    .refine((p) => ext.test(p), "Unsupported file type");
+    .refine((p) => ext.test(p), "Unsupported file type")
+    // Catch typos at build time: the file must actually exist under public/.
+    .refine(
+      (p) => fs.existsSync(path.join(process.cwd(), "public", p)),
+      { error: (issue) => `File not found: public${String(issue.input)}` },
+    );
 
 const imagePath = (dir: string) => publicPath(dir, /\.(jpe?g|png|webp|avif)$/i);
 

@@ -29,6 +29,10 @@
   --stream-floor: 0.33; /* AA guard: x 0.09 home opacity = ~3% ink; light accent text
                            stays at ~4.59:1. Raising this breaks AA for links. */
   --stream-floor-narrow: 0.33; /* phones (<48rem); see LogStream.module.css */
+  /* Travel globe (spec: pure black and white). Pins use the sphere tone with a
+     land-tone edge, so they read on land and on ocean. */
+  --globe-sphere: #ffffff;
+  --globe-land: #000000;
   color-scheme: light;
 
   /* Font families (variables come from next/font in src/app/fonts.ts) */
@@ -93,6 +97,8 @@
     --color-on-accent: #0d1117;
     --stream-floor: 0.6;
     --stream-floor-narrow: 0.3;
+    --globe-sphere: #000000;
+    --globe-land: #ffffff;
     color-scheme: dark;
   }
 }
@@ -108,6 +114,8 @@
   --color-on-accent: #0d1117;
   --stream-floor: 0.6;
   --stream-floor-narrow: 0.3;
+  --globe-sphere: #000000;
+  --globe-land: #ffffff;
   color-scheme: dark;
 }
 

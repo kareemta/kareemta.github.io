@@ -39,7 +39,7 @@ export default function ReviewCard({
       </p>
 
       <div className={styles.body}>
-        <ReviewCover review={review} sizes={compact ? "72px" : "120px"} />
+        <ReviewCover review={review} sizes={compact ? "72px" : "120px"} compact={compact} />
 
         <div className={styles.text}>
           <Heading className={styles.title}>

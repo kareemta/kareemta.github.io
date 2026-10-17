@@ -1,0 +1,11 @@
+ne_110m_land.json
+
+Source: Natural Earth 1:110m "Land" (ne_110m_land.geojson), v5.1.2
+https://github.com/nvkelso/natural-earth-vector (geojson/ne_110m_land.geojson)
+https://www.naturalearthdata.com/
+
+License: public domain. "All versions of Natural Earth raster + vector map data
+are in the public domain." Made with Natural Earth.
+
+Modified for this site: properties, bbox and crs removed; coordinates rounded to
+3 decimal places. Bundled locally; never fetched from a CDN at runtime.

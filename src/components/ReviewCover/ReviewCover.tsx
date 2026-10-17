@@ -8,7 +8,16 @@ import styles from "./ReviewCover.module.css";
  * (never hotlinked); otherwise a generated typographic cover: the title and type
  * on an accent block, in --color-on-accent (AA on accent in both themes).
  */
-export default function ReviewCover({ review, sizes }: { review: Review; sizes: string }) {
+export default function ReviewCover({
+  review,
+  sizes,
+  compact = false,
+}: {
+  review: Review;
+  sizes: string;
+  /** Small (feed) cover: fewer title lines fit. */
+  compact?: boolean;
+}) {
   if (review.cover) {
     return (
       <div className={styles.cover}>
@@ -25,7 +34,10 @@ export default function ReviewCover({ review, sizes }: { review: Review; sizes: 
 
   // Decorative: the title and type are already in the card text.
   return (
-    <div className={`${styles.cover} ${styles.fallback}`} aria-hidden="true">
+    <div
+      className={`${styles.cover} ${styles.fallback} ${compact ? styles.compact : ""}`}
+      aria-hidden="true"
+    >
       <span className={styles.type}>{REVIEW_TYPE_LABEL[review.type]}</span>
       <span className={styles.title}>{review.title}</span>
     </div>

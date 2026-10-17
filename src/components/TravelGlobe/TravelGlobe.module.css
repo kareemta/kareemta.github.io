@@ -1,0 +1,67 @@
+.wrap {
+  position: relative;
+  width: 100%;
+  max-width: 35rem;
+  aspect-ratio: 1;
+  margin-inline: auto;
+  overflow: hidden; /* never let the canvas cause horizontal scroll */
+}
+
+/* Pin: solid dot in the sphere tone with a land-tone edge (reads on land and ocean),
+   plus a soft pulse ring. Static under reduced motion. Grayscale only. */
+.pin {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--globe-land);
+  border-radius: 50%;
+  background: var(--globe-sphere);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Larger invisible tap target. */
+.pin::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+}
+
+.pin::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 1.5px solid var(--globe-sphere);
+  border-radius: 50%;
+  opacity: 0;
+  animation: pulse 2.4s ease-out infinite;
+}
+
+.pin[data-selected] {
+  width: 14px;
+  height: 14px;
+}
+
+.pin[data-selected]::after {
+  border-color: var(--globe-land);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pin::after {
+    animation: none;
+    transform: none;
+    opacity: 0.5;
+  }
+}

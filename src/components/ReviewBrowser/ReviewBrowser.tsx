@@ -20,7 +20,9 @@ const SORTS: { value: ReviewSort; label: string }[] = [
 
 /** "3 reviews", "1 book review", "2 TV reviews". */
 function countLabel(n: number, filter: ReviewFilter): string {
-  const kind = filter === "all" ? "" : `${filter === "tv" ? "TV" : filter} `;
+  // "Book" -> "book", but acronyms like "TV" keep their case.
+  const label = filter === "all" ? "" : REVIEW_TYPE_LABEL[filter];
+  const kind = label ? `${label === label.toUpperCase() ? label : label.toLowerCase()} ` : "";
   return `${n} ${kind}${n === 1 ? "review" : "reviews"}`;
 }
 

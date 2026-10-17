@@ -41,3 +41,13 @@
   -webkit-line-clamp: 6;
   line-clamp: 6;
 }
+
+/*
+ * Lines that fit: height 1.5w minus 0.2w padding, ~15px type label and the gap.
+ * Full covers (88-120px wide) fit about 6.5 lines; the 72px compact cover fits
+ * about 5, so clamp to 4 to never show a half-cut line.
+ */
+.compact .title {
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+}

@@ -3,6 +3,7 @@
 import { useSyncExternalStore } from "react";
 import ToggleButton from "@/components/ToggleButton/ToggleButton";
 import { THEME_STORAGE_KEY, isTheme, type Theme } from "@/lib/theme";
+import { subscribeTheme } from "@/lib/themeWatch";
 
 const DARK_QUERY = "(prefers-color-scheme: dark)";
 
@@ -11,18 +12,6 @@ function getEffectiveTheme(): Theme {
   const chosen = document.documentElement.getAttribute("data-theme");
   if (isTheme(chosen)) return chosen;
   return window.matchMedia(DARK_QUERY).matches ? "dark" : "light";
-}
-
-/** Re-render when the OS setting or the data-theme attribute changes (e.g. another toggle). */
-function subscribe(onChange: () => void): () => void {
-  const media = window.matchMedia(DARK_QUERY);
-  media.addEventListener("change", onChange);
-  const observer = new MutationObserver(onChange);
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-  return () => {
-    media.removeEventListener("change", onChange);
-    observer.disconnect();
-  };
 }
 
 /** Unknown during the static build; the real value is read right after hydration. */
@@ -36,7 +25,7 @@ function getServerTheme(): Theme | null {
  * "Dark mode" toggle button (aria-pressed).
  */
 export default function ThemeToggle() {
-  const theme = useSyncExternalStore(subscribe, getEffectiveTheme, getServerTheme);
+  const theme = useSyncExternalStore(subscribeTheme, getEffectiveTheme, getServerTheme);
   const isDark = theme === null ? null : theme === "dark";
 
   function toggle() {

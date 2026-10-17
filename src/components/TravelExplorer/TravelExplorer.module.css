@@ -1,0 +1,141 @@
+.explorer {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.stage {
+  display: grid;
+  gap: var(--space-5);
+  align-items: center;
+}
+
+@media (min-width: 56rem) {
+  .stage {
+    grid-template-columns: minmax(0, 3fr) minmax(16rem, 2fr);
+  }
+}
+
+/* Reserve the globe's square so the page doesn't jump while three.js loads. */
+.globeLoading {
+  width: 100%;
+  max-width: 35rem;
+  aspect-ratio: 1;
+  margin-inline: auto;
+}
+
+.fallback {
+  margin: 0;
+  padding: var(--space-5);
+  border: var(--border-width) dashed var(--color-muted);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.detail {
+  min-width: 0;
+  padding: var(--space-5);
+  border: var(--border-width) solid var(--color-line);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.topic {
+  margin: 0 0 var(--space-1);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.placeName {
+  margin: 0 0 var(--space-1);
+  font-size: var(--text-xl);
+}
+
+.placeMeta {
+  margin: 0 0 var(--space-3);
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.highlight,
+.hint {
+  margin: 0;
+}
+
+.hint {
+  color: var(--color-muted);
+}
+
+.photo {
+  position: relative;
+  margin-top: var(--space-4);
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+.photo img {
+  object-fit: cover;
+}
+
+.listHeading {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-xl);
+}
+
+.count {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  height: 100%; /* even cards across a row */
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-width) solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.item:hover {
+  border-color: var(--color-accent);
+}
+
+.item[aria-pressed="true"] {
+  border-color: var(--color-accent);
+  box-shadow: inset 3px 0 0 var(--color-accent);
+}
+
+.itemName {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.itemYear {
+  flex: none;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}

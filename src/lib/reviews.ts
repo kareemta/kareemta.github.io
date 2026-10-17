@@ -12,7 +12,7 @@ const byDate = (a: Review, b: Review) =>
 const byRating = (a: Review, b: Review) => b.rating - a.rating || byDate(a, b);
 
 export function sortReviews(reviews: Review[], sort: ReviewSort): Review[] {
-  return reviews.toSorted(sort === "rating" ? byRating : byDate);
+  return [...reviews].sort(sort === "rating" ? byRating : byDate);
 }
 
 export function filterReviews(reviews: Review[], filter: ReviewFilter): Review[] {
