@@ -41,8 +41,8 @@ export default function ExperienceTimeline({ entries }: { entries: ExperienceEnt
                 </p>
                 {entry.summary.length > 0 && (
                   <ul className={styles.summary}>
-                    {entry.summary.map((line) => (
-                      <li key={line}>{line}</li>
+                    {entry.summary.map((line, i) => (
+                      <li key={`${i}-${line}`}>{line}</li>
                     ))}
                   </ul>
                 )}

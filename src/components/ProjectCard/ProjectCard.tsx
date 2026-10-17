@@ -9,8 +9,11 @@ import styles from "./ProjectCard.module.css";
 export default function ProjectCard({ project }: { project: Project }) {
   return (
     <article className={styles.card}>
-      <p className={styles.stream} aria-hidden="true">
-        project.added
+      <p className={styles.meta}>
+        <span className={styles.badge}>Project</span>
+        <span className={styles.stream} aria-hidden="true">
+          project.added
+        </span>
       </p>
       <h3 className={styles.name}>{project.name}</h3>
       <p className={styles.oneLiner}>{project.oneLiner}</p>

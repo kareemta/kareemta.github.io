@@ -33,6 +33,18 @@
      land-tone edge, so they read on land and on ocean. */
   --globe-sphere: #ffffff;
   --globe-land: #000000;
+  /* Code syntax colors (Shiki css-variables theme), all AA (>= 5:1) on --shiki-background. */
+  --shiki-foreground: #11151b;
+  --shiki-background: #ffffff;
+  --shiki-token-comment: #5a6372;
+  --shiki-token-keyword: #cf222e;
+  --shiki-token-string: #0a3069;
+  --shiki-token-string-expression: #116329;
+  --shiki-token-constant: #0550ae;
+  --shiki-token-function: #8250df;
+  --shiki-token-parameter: #953800;
+  --shiki-token-punctuation: #24292f;
+  --shiki-token-link: #0550ae;
   color-scheme: light;
 
   /* Font families (variables come from next/font in src/app/fonts.ts) */
@@ -99,6 +111,17 @@
     --stream-floor-narrow: 0.3;
     --globe-sphere: #000000;
     --globe-land: #ffffff;
+    --shiki-foreground: #e6eaf0;
+    --shiki-background: #161b22;
+    --shiki-token-comment: #8b95a5;
+    --shiki-token-keyword: #ff7b72;
+    --shiki-token-string: #a5d6ff;
+    --shiki-token-string-expression: #7ee787;
+    --shiki-token-constant: #79c0ff;
+    --shiki-token-function: #d2a8ff;
+    --shiki-token-parameter: #ffa657;
+    --shiki-token-punctuation: #c9d1d9;
+    --shiki-token-link: #a5d6ff;
     color-scheme: dark;
   }
 }
@@ -116,6 +139,17 @@
   --stream-floor-narrow: 0.3;
   --globe-sphere: #000000;
   --globe-land: #ffffff;
+  --shiki-foreground: #e6eaf0;
+  --shiki-background: #161b22;
+  --shiki-token-comment: #8b95a5;
+  --shiki-token-keyword: #ff7b72;
+  --shiki-token-string: #a5d6ff;
+  --shiki-token-string-expression: #7ee787;
+  --shiki-token-constant: #79c0ff;
+  --shiki-token-function: #d2a8ff;
+  --shiki-token-parameter: #ffa657;
+  --shiki-token-punctuation: #c9d1d9;
+  --shiki-token-link: #a5d6ff;
   color-scheme: dark;
 }
 

@@ -199,15 +199,27 @@ export const projectsSchema = z
   .array(projectSchema)
   .superRefine(uniqueBy((p) => p.name, "project name"));
 
-export const experienceEntrySchema = z.object({
-  kind: z.enum(["work", "education"]),
-  org: nonEmpty,
-  title: nonEmpty,
-  start: orTodo(yearMonth),
-  end: z.union([yearMonth, z.literal("present"), todo]),
-  summary: z.array(nonEmpty),
-  placeholder,
-});
+export const experienceEntrySchema = z
+  .object({
+    kind: z.enum(["work", "education"]),
+    org: nonEmpty,
+    title: nonEmpty,
+    start: orTodo(yearMonth),
+    end: z.union([yearMonth, z.literal("present"), todo]),
+    summary: z.array(nonEmpty),
+    placeholder,
+  })
+  .superRefine((entry, ctx) => {
+    // YYYY-MM strings compare correctly as text; skip "present" and TODO values.
+    const dated = (v: string) => /^\d{4}-\d{2}$/.test(v);
+    if (dated(entry.start) && dated(entry.end) && entry.start > entry.end) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["end"],
+        message: `End (${entry.end}) is before start (${entry.start})`,
+      });
+    }
+  });
 
 export const experienceSchema = z.object({
   /** Served from public/resume.pdf. */
@@ -241,7 +253,13 @@ export type Project = z.infer<typeof projectSchema>;
 export type ExperienceEntry = z.infer<typeof experienceEntrySchema>;
 export type Experience = z.infer<typeof experienceSchema>;
 export type PostMeta = z.infer<typeof postMetaSchema>;
-export type Post = PostMeta & { /** Raw markdown body. Rendering comes later. */ body: string };
+export type Post = PostMeta & {
+  /** "md" for plain Markdown, "mdx" for MDX. */
+  format: "md" | "mdx";
+  /** Raw source; rendered at build time by src/lib/mdx.tsx. */
+  body: string;
+  readingMinutes: number;
+};
 
 /* ------------------------------------------------------------------ */
 /* Loading                                                             */
@@ -332,34 +350,41 @@ const endKey = (end: ExperienceEntry["end"]) => (end === "present" ? "9999-12" :
 
 /** Real (non-placeholder) experience entries, most recent first. */
 export function getExperienceEntries(): ExperienceEntry[] {
-  return publishable(getExperience().entries).toSorted(
+  return [...publishable(getExperience().entries)].sort(
     (a, b) => endKey(b.end).localeCompare(endKey(a.end)) || b.start.localeCompare(a.start),
   );
 }
 
 const POSTS_INDEX = "posts/index.json";
 
-/** Loads posts/index.json and checks it matches the .md files one-to-one. */
+const POST_EXT = /\.mdx?$/i;
+
+/**
+ * Loads posts/index.json and checks it matches the post files one-to-one. A post
+ * is `content/posts/<slug>.md` (plain Markdown) or `<slug>.mdx` (MDX), not both.
+ */
 function getPostIndex(): PostMeta[] {
   const index = loadJson(POSTS_INDEX, postIndexSchema);
 
   const postsDir = path.join(CONTENT_DIR, "posts");
-  const files = new Set(
-    fs.readdirSync(postsDir).filter((f) => f.toLowerCase().endsWith(".md")),
-  );
+  const files = fs.readdirSync(postsDir).filter((f) => POST_EXT.test(f));
+  const fileSlugs = files.map((f) => f.replace(POST_EXT, ""));
   const problems: string[] = [];
 
   for (const { slug } of index) {
-    if (!files.has(`${slug}.md`)) {
-      problems.push(`  - "${slug}" has no matching file content/posts/${slug}.md`);
+    const count = fileSlugs.filter((s) => s === slug).length;
+    if (count === 0) {
+      problems.push(`  - "${slug}" has no matching file content/posts/${slug}.md or .mdx`);
+    } else if (count > 1) {
+      problems.push(`  - "${slug}" has both a .md and an .mdx file; keep one`);
     }
   }
   const slugs = new Set(index.map((p) => p.slug));
-  for (const file of files) {
-    if (!slugs.has(file.replace(/\.md$/i, ""))) {
+  files.forEach((file, i) => {
+    if (!slugs.has(fileSlugs[i])) {
       problems.push(`  - content/posts/${file} is not listed in ${POSTS_INDEX}`);
     }
-  }
+  });
   if (problems.length) throw new ContentError(POSTS_INDEX, problems.join("\n"));
 
   return index;
@@ -378,11 +403,30 @@ export function getPosts({ includeDrafts = false } = {}): PostMeta[] {
     .toSorted((a, b) => compareDatesNewestFirst(a.date, b.date));
 }
 
-/** One post with its raw markdown body. Throws if the slug is unknown. */
+/** One post with its raw body. Throws if the slug is unknown. */
 export function getPost(slug: string): Post {
   const meta = getPostIndex().find((p) => p.slug === slug);
   if (!meta) throw new ContentError(POSTS_INDEX, `  - no post with slug "${slug}"`);
-  return { ...meta, body: readContentFile(`posts/${slug}.md`) };
+  const format = fs.existsSync(path.join(CONTENT_DIR, "posts", `${slug}.mdx`)) ? "mdx" : "md";
+  const body = readContentFile(`posts/${slug}.${format}`);
+  return { ...meta, format, body, readingMinutes: readingMinutes(body) };
+}
+
+/** Published (non-draft, non-placeholder) posts, newest first: what the site shows. */
+export function getPublishedPosts(): PostMeta[] {
+  return publishable(getPosts());
+}
+
+const WORDS_PER_MINUTE = 230;
+
+/**
+ * Reading time in whole minutes (at least 1). Counts words in the prose; code
+ * blocks are skipped since people scan rather than read them.
+ */
+export function readingMinutes(body: string): number {
+  const prose = body.replace(/```[\s\S]*?```/g, " ").replace(/<[^>]+>/g, " ");
+  const words = prose.match(/[\p{L}\p{N}'’-]+/gu)?.length ?? 0;
+  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
 }
 
 /**

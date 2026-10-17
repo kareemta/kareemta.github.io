@@ -89,7 +89,7 @@ export function getLatestEvents(): FeedEvent[] {
       date: post.date,
       title: post.title,
       detail: post.summary,
-      href: "/writing/",
+      href: `/writing/${post.slug}/`,
     });
   }
 

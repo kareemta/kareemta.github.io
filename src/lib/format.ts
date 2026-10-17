@@ -29,3 +29,9 @@ export function formatYearMonth(value: string): string {
   const [year, month] = value.split("-");
   return `${MONTHS[Number(month) - 1] ?? ""} ${year}`.trim();
 }
+
+/** "2026-10-01" -> "Oct 1, 2026". Parsed by hand so the build machine's time zone can't shift it. */
+export function formatDate(iso: string): string {
+  const [year, month, day] = iso.split("-").map(Number);
+  return `${MONTHS[month - 1] ?? ""} ${day}, ${year}`;
+}
