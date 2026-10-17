@@ -23,11 +23,11 @@ const VIEWPORT_HEIGHT = 900;
 const NAV_TIMEOUT_MS = 30_000;
 
 /**
- * Hook for the manual theme toggle (task 2.1). When the toggle stores its choice
- * in localStorage, set this to that key (e.g. "theme") and each screenshot will
- * also force the stored theme, not just the OS color scheme. null = not wired yet.
+ * localStorage key used by <ThemeToggle> (must match THEME_STORAGE_KEY in
+ * src/lib/theme.ts). Each screenshot forces the stored theme as well as the OS
+ * color scheme, so a manual choice cannot leak between shots.
  */
-const THEME_STORAGE_KEY = null;
+const THEME_STORAGE_KEY = "theme";
 
 /** Route used to capture the 404 page; any path that does not exist works. */
 const NOT_FOUND_PATH = "/__shots-not-found__/";

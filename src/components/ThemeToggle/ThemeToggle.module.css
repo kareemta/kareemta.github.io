@@ -1,0 +1,37 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.75rem; /* 44px touch target */
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-width) solid var(--color-muted);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.toggle:hover {
+  border-color: var(--color-accent);
+}
+
+.label {
+  text-transform: lowercase;
+}
+
+.state {
+  display: inline-block;
+  min-width: 3ch; /* reserve room so the button does not resize after hydration */
+  color: var(--color-muted);
+  text-align: left;
+}
+
+.toggle[aria-pressed="true"] .state {
+  color: var(--color-accent);
+}

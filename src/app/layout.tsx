@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { getSite, validateAllContent } from "@/lib/content";
+import { themeInitScript } from "@/lib/theme";
+import { fontVariables } from "./fonts";
 import "./globals.css";
 
 validateAllContent();
@@ -12,7 +14,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en">
+    // suppressHydrationWarning: the inline script may set data-theme before React hydrates.
+    <html lang="en" className={fontVariables} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body>{children}</body>
     </html>
   );
