@@ -21,18 +21,22 @@ export default function ExperienceTimeline({ entries }: { entries: ExperienceEnt
       {entries.length > 0 ? (
         <ol className={styles.timeline}>
           {entries.map((entry) => (
-            <li key={`${entry.org}-${entry.title}-${entry.start}`} className={styles.item}>
+            <li key={`${entry.org}-${entry.title}-${entry.end}`} className={styles.item}>
               <article className={styles.card}>
                 <p className={styles.meta}>
                   <span className={styles.badge}>{KIND_LABEL[entry.kind]}</span>
                   <span className={styles.stream} aria-hidden="true">
-                    {entry.kind}.role · {entry.start} → {entry.end}
+                    {entry.kind}.role · {entry.start ? `${entry.start} → ${entry.end}` : entry.end}
                   </span>
                 </p>
                 <h3 className={styles.title}>{entry.title}</h3>
                 <p className={styles.org}>
                   {entry.org} ·{" "}
-                  <time dateTime={entry.start}>{formatYearMonth(entry.start)}</time> –{" "}
+                  {entry.start && (
+                    <>
+                      <time dateTime={entry.start}>{formatYearMonth(entry.start)}</time> –{" "}
+                    </>
+                  )}
                   {entry.end === "present" ? (
                     "Present"
                   ) : (

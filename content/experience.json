@@ -1,22 +1,35 @@
 {
+  "resumePdf": "/resume.pdf",
   "entries": [
     {
       "kind": "work",
-      "org": "Ford",
-      "title": "TODO(user)",
-      "start": "TODO(user)",
+      "org": "Ford Motor Company",
+      "title": "Software Engineer I",
+      "start": "2025-01",
       "end": "present",
-      "summary": ["TODO(user)"],
-      "placeholder": true
+      "summary": [
+        "Backend and full-stack work on streaming data infrastructure and internal platforms",
+        "Stack: Spring Boot, Kubernetes, TypeScript, FastAPI, Next.js"
+      ]
+    },
+    {
+      "kind": "work",
+      "org": "Hexagon Manufacturing Intelligence",
+      "title": "Software Engineering Intern",
+      "start": "2023-05",
+      "end": "2023-07",
+      "summary": [
+        "Cut the runtime of automated ADAMS simulation regression runs by over 80% by parallelizing workloads with Python's multiprocessing library"
+      ]
     },
     {
       "kind": "education",
-      "org": "TODO(user)",
-      "title": "TODO(user)",
-      "start": "TODO(user)",
-      "end": "TODO(user)",
-      "summary": ["TODO(user)"],
-      "placeholder": true
+      "org": "University of Michigan-Dearborn",
+      "title": "B.S. Computer Science",
+      "end": "2024",
+      "summary": [
+        "Coursework: Linear Algebra, Data Structures & Algorithms, Operating Systems, Intro to AI, Computer Networking, Computers & Security, Web Technology & Mobile Development"
+      ]
     }
   ]
 }

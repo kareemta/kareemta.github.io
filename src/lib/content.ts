@@ -33,7 +33,8 @@ const nonEmpty = z.string().trim().min(1);
 const isoDate = z.iso.date();
 
 /** Month precision for timelines: YYYY-MM. */
-const yearMonth = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, "Expected YYYY-MM");
+/** YYYY-MM, or a bare YYYY when only the year should be shown. */
+const yearOrYearMonth = z.string().regex(/^\d{4}(-(0[1-9]|1[0-2]))?$/, "Expected YYYY or YYYY-MM");
 
 /** Site-relative path to a file in `public/`, e.g. `/covers/dune.jpg`. */
 const publicPath = (dir: string, ext: RegExp) =>
@@ -207,15 +208,21 @@ export const experienceEntrySchema = z
     kind: z.enum(["work", "education"]),
     org: nonEmpty,
     title: nonEmpty,
-    start: orTodo(yearMonth),
-    end: z.union([yearMonth, z.literal("present"), todo]),
+    /** Optional: omit to show only the end date (e.g. "B.S. ... · 2024"). */
+    start: orTodo(yearOrYearMonth).optional(),
+    end: z.union([yearOrYearMonth, z.literal("present"), todo]),
     summary: z.array(nonEmpty),
     placeholder,
   })
   .superRefine((entry, ctx) => {
-    // YYYY-MM strings compare correctly as text; skip "present" and TODO values.
-    const dated = (v: string) => /^\d{4}-\d{2}$/.test(v);
-    if (dated(entry.start) && dated(entry.end) && entry.start > entry.end) {
+    // Same-precision dates compare correctly as text; mixed YYYY / YYYY-MM compare by
+    // year. Skip a missing start, "present" and TODO values.
+    const dated = (v: string | undefined): v is string => !!v && /^\d{4}(-\d{2})?$/.test(v);
+    const { start, end } = entry;
+    if (!dated(start) || !dated(end)) return;
+    const after =
+      start.length === end.length ? start > end : start.slice(0, 4) > end.slice(0, 4);
+    if (after) {
       ctx.addIssue({
         code: "custom",
         path: ["end"],
@@ -327,12 +334,14 @@ export function getResumeUrl(): string | null {
 }
 
 /** Sort key for an entry's end: "present" sorts after every real month. */
-const endKey = (end: ExperienceEntry["end"]) => (end === "present" ? "9999-12" : end);
+/** Sort key: "present" sorts last-in-time; a bare year sorts as December of that year. */
+const endKey = (end: ExperienceEntry["end"]) =>
+  end === "present" ? "9999-12" : end.length === 4 ? `${end}-12` : end;
 
 /** Real (non-placeholder) experience entries, most recent first. */
 export function getExperienceEntries(): ExperienceEntry[] {
   return [...publishable(getExperience().entries)].sort(
-    (a, b) => endKey(b.end).localeCompare(endKey(a.end)) || b.start.localeCompare(a.start),
+    (a, b) => endKey(b.end).localeCompare(endKey(a.end)) || (b.start ?? "").localeCompare(a.start ?? ""),
   );
 }
 
