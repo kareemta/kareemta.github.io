@@ -1,4 +1,6 @@
 .footer {
+  /* Solid bar: footer text and controls never sit on the log stream. */
+  background: var(--color-bg);
   margin-top: var(--space-8);
   border-top: var(--border-width) solid var(--color-line);
 }

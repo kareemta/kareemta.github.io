@@ -1,4 +1,8 @@
 .resume {
+  width: fit-content;
+  max-width: 100%;
+  background: var(--text-backdrop, var(--color-bg));
+  box-shadow: var(--backdrop-feather) var(--text-backdrop, var(--color-bg));
   margin: var(--space-6) 0 0;
   font-family: var(--font-mono);
   font-size: var(--text-sm);

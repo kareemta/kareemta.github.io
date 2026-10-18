@@ -13,6 +13,10 @@
 }
 
 .legend {
+  width: fit-content;
+  max-width: 100%;
+  background: var(--text-backdrop, var(--color-bg));
+  box-shadow: var(--backdrop-feather) var(--text-backdrop, var(--color-bg));
   margin-bottom: var(--space-2);
   padding: 0;
   color: var(--color-muted);
@@ -69,6 +73,10 @@
 }
 
 .count {
+  width: fit-content;
+  max-width: 100%;
+  background: var(--text-backdrop, var(--color-bg));
+  box-shadow: var(--backdrop-feather) var(--text-backdrop, var(--color-bg));
   margin: 0 0 var(--space-4);
   color: var(--color-muted);
   font-family: var(--font-mono);

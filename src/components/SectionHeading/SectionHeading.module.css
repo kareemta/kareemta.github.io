@@ -3,6 +3,10 @@
 }
 
 .topic {
+  width: fit-content;
+  max-width: 100%;
+  background: var(--text-backdrop, var(--color-bg));
+  box-shadow: var(--backdrop-feather) var(--text-backdrop, var(--color-bg));
   margin: 0 0 var(--space-1);
   color: var(--color-accent);
   font-family: var(--font-mono);
@@ -11,6 +15,10 @@
 }
 
 .title {
+  width: fit-content;
+  max-width: 100%;
+  background: var(--text-backdrop, var(--color-bg));
+  box-shadow: var(--backdrop-feather) var(--text-backdrop, var(--color-bg));
   margin: 0;
   font-size: var(--text-xl);
 }

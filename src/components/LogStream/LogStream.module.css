@@ -1,16 +1,16 @@
 /*
  * Decorative background layer. Glyphs are drawn in solid ink/accent and the whole
- * layer is faded with opacity: 9% on home, 6% on inner pages (spec: 6–10%).
+ * layer is faded with opacity: stronger on home, dimmer on inner pages.
  *
- * Mask: horizontally the stream drops to --stream-floor across the content
- * column (the Container's width) and is full strength only outside it;
- * vertically it fades in from the bottom and out at the top. --stream-floor is
- * a per-theme token chosen so text over the stream keeps WCAG AA (globals.css).
+ * AA: text never sits on the stream. Every text block on the bare page has an
+ * opaque --color-bg backdrop (--backdrop-feather in globals.css), cards are opaque
+ * --color-surface, and the header/footer are solid bars. That is what lets the
+ * stream be clearly visible; if you add text directly on the page, give it the
+ * backdrop too, or it will sit over up to ~14% ink.
+ *
+ * Mask: a short fade at the top and bottom only, so lines drift in and out softly.
  */
 .stream {
-  --edge: max(0px, (100vw - var(--content-max)) / 2);
-  --floor: rgb(0 0 0 / var(--stream-floor));
-
   position: fixed;
   top: 0;
   left: 0;
@@ -21,35 +21,15 @@
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
-  mask-image:
-    linear-gradient(to bottom, transparent 0, #000 25%, #000 85%, transparent 100%),
-    linear-gradient(
-      to right,
-      #000 calc(var(--edge) - 8rem),
-      var(--floor) var(--edge),
-      var(--floor) calc(100% - var(--edge)),
-      #000 calc(100% - var(--edge) + 8rem)
-    );
-  mask-composite: intersect;
-}
-
-/* Phones: the content column is the whole screen, so use the gentler narrow floor
-   to keep the hero text clearly in front. */
-@media (max-width: 48rem) {
-  .stream {
-    --floor: rgb(0 0 0 / var(--stream-floor-narrow));
-  }
+  mask-image: linear-gradient(to bottom, transparent 0, #000 15%, #000 88%, transparent 100%);
 }
 
 .home {
-  /* AA guard: with light --stream-floor 0.33 this gives ~3% ink behind the content
-     column, which leaves light accent text at ~4.59:1, a thin margin over 4.5.
-     Raising this value (or the light floor) breaks AA for links. */
-  opacity: 0.09;
+  opacity: 0.14;
 }
 
 .inner {
-  opacity: 0.06;
+  opacity: 0.1;
 }
 
 .canvas {

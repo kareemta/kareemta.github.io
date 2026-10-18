@@ -24,11 +24,18 @@
   --color-accent: #2f5bea;
   --color-on-accent: #ffffff;
   --color-focus: var(--color-accent);
-  /* Log stream mask level behind the content column (0-1). Light text tolerates
-     the least ink behind it, so light fades harder. See LogStream.module.css. */
-  --stream-floor: 0.33; /* AA guard: x 0.09 home opacity = ~3% ink; light accent text
-                           stays at ~4.59:1. Raising this breaks AA for links. */
-  --stream-floor-narrow: 0.33; /* phones (<48rem); see LogStream.module.css */
+  /*
+   * Text backdrop. Text that sits directly on the page (hero, page and section
+   * headings, intros, counts) gets an opaque --color-bg box with this feathered
+   * edge, and the header/footer are solid bars. So no text is ever drawn over the
+   * log stream: text contrast is exactly the token values above in both themes
+   * (light worst case: accent on bg 4.87:1), however strong the stream is.
+   * Cards use --color-surface, which is opaque too. See LogStream.module.css.
+   * Usage: background: var(--text-backdrop, var(--color-bg));
+   *        box-shadow: var(--backdrop-feather) var(--text-backdrop, var(--color-bg));
+   * A card that contains such text sets --text-backdrop to its own surface color.
+   */
+  --backdrop-feather: 0 0 1.5rem 0.5rem;
   /* Travel globe (spec: pure black and white). Pins use the sphere tone with a
      land-tone edge, so they read on land and on ocean. */
   --globe-sphere: #ffffff;
@@ -95,8 +102,6 @@
     --color-line: #2a313c;
     --color-accent: #7c9bff;
     --color-on-accent: #0d1117;
-    --stream-floor: 0.6;
-    --stream-floor-narrow: 0.3;
     --globe-sphere: #000000;
     --globe-land: #ffffff;
     color-scheme: dark;
@@ -112,8 +117,6 @@
   --color-line: #2a313c;
   --color-accent: #7c9bff;
   --color-on-accent: #0d1117;
-  --stream-floor: 0.6;
-  --stream-floor-narrow: 0.3;
   --globe-sphere: #000000;
   --globe-land: #ffffff;
   color-scheme: dark;

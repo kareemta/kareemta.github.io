@@ -81,6 +81,10 @@
 }
 
 .listHeading {
+  width: fit-content;
+  max-width: 100%;
+  background: var(--text-backdrop, var(--color-bg));
+  box-shadow: var(--backdrop-feather) var(--text-backdrop, var(--color-bg));
   margin-bottom: var(--space-4);
   font-size: var(--text-xl);
 }

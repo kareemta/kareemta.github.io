@@ -1,4 +1,6 @@
 .header {
+  /* Solid bar: nav text never sits on the log stream. */
+  background: var(--color-bg);
   border-bottom: var(--border-width) solid var(--color-line);
 }
 
