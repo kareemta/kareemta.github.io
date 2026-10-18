@@ -5,8 +5,8 @@ import styles from "./EventCard.module.css";
 /**
  * Compact event row: a mono header (`#0042 · review.book · 2026-10-12`) next to a
  * plain label ("Book review"), then the title (linking to its section) and one
- * supporting line. Generic over all feed kinds; 3.1 can render <ReviewCard> for
- * kind === "review" instead.
+ * supporting line. Used for feed items without a dedicated card (trips today;
+ * reviews use <ReviewCard>).
  */
 export default function EventCard({ event }: { event: FeedEvent }) {
   const meta = [event.offset, event.topic, event.date].filter(Boolean).join(" · ");

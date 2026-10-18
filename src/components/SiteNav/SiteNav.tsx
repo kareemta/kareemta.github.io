@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ariaCurrentFor } from "@/lib/nav";
+import { ariaCurrentFor, type NavItem } from "@/lib/nav";
 import styles from "./SiteNav.module.css";
 
-export type NavItem = { href: string; label: string };
 
 /** Primary navigation; marks the current page or section with aria-current. */
 export default function SiteNav({ items }: { items: NavItem[] }) {

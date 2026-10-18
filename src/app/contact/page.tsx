@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import ContactLinks from "@/components/ContactLinks/ContactLinks";
 import EmptyState from "@/components/EmptyState/EmptyState";
 import PageHeader from "@/components/PageHeader/PageHeader";
 import { TODO, getResumeUrl, getSite } from "@/lib/content";
 import styles from "./page.module.css";
 
-export function generateMetadata(): Metadata {
-  return { title: `Contact · ${getSite().displayName}` };
-}
+export const metadata: Metadata = pageMetadata({
+  title: "Contact",
+  description:
+    "How to get in touch: LinkedIn and GitHub.",
+  path: "/contact/",
+});
 
 export default function ContactPage() {
   const site = getSite();

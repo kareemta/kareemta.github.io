@@ -4,8 +4,9 @@ import PageHeader from "@/components/PageHeader/PageHeader";
 import ReviewBrowser from "@/components/ReviewBrowser/ReviewBrowser";
 import ReviewCard from "@/components/ReviewCard/ReviewCard";
 import SectionHeading from "@/components/SectionHeading/SectionHeading";
-import { getReviews, getSite, publishable, type ReviewType } from "@/lib/content";
+import { getReviews, publishable, type ReviewType } from "@/lib/content";
 import { currentLabels, REVIEW_TYPE_PAGE, reviewNoun, reviewTopic } from "@/lib/format";
+import { pageMetadata } from "@/lib/metadata";
 import { sortReviews } from "@/lib/reviews";
 import styles from "./ReviewTypePage.module.css";
 
@@ -16,8 +17,16 @@ const INTRO: Record<ReviewType, string> = {
   tv: "TV shows, each with a score out of 10 and a short take.",
 };
 
+/** Neutral, factual page descriptions for search and link previews. */
+const DESCRIPTION: Record<ReviewType, string> = {
+  book: "Book reviews, each with a score out of 10 and a short take.",
+  film: "Movie reviews, each with a score out of 10 and a short take.",
+  tv: "TV show reviews, each with a score out of 10 and a short take.",
+};
+
 export function reviewTypeMetadata(type: ReviewType): Metadata {
-  return { title: `${REVIEW_TYPE_PAGE[type].title} · ${getSite().displayName}` };
+  const page = REVIEW_TYPE_PAGE[type];
+  return pageMetadata({ title: page.title, description: DESCRIPTION[type], path: page.href });
 }
 
 /**

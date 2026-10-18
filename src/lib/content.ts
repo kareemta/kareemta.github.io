@@ -201,18 +201,6 @@ export const travelSchema = z
 
 export const travelListSchema = z.array(travelSchema);
 
-export const projectSchema = z.object({
-  name: nonEmpty,
-  oneLiner: nonEmpty,
-  tech: z.array(nonEmpty),
-  links: z.array(link),
-  placeholder,
-});
-
-export const projectsSchema = z
-  .array(projectSchema)
-  .superRefine(uniqueBy((p) => p.name, "project name"));
-
 export const experienceEntrySchema = z
   .object({
     kind: z.enum(["work", "education"]),
@@ -256,7 +244,6 @@ export type Link = z.infer<typeof link>;
 export type { ReviewType } from "@/lib/format";
 export type Review = z.infer<typeof reviewSchema>;
 export type Place = z.infer<typeof travelSchema>;
-export type Project = z.infer<typeof projectSchema>;
 export type ExperienceEntry = z.infer<typeof experienceEntrySchema>;
 export type Experience = z.infer<typeof experienceSchema>;
 /* ------------------------------------------------------------------ */
@@ -326,10 +313,6 @@ export function getTravel(): Place[] {
   return loadJson("travel.json", travelListSchema);
 }
 
-export function getProjects(): Project[] {
-  return loadJson("projects.json", projectsSchema);
-}
-
 export function getExperience(): Experience {
   return loadJson("experience.json", experienceSchema);
 }
@@ -363,7 +346,6 @@ export function validateAllContent(): void {
   getSite();
   getReviews();
   getTravel();
-  getProjects();
   getExperience();
 }
 
@@ -407,10 +389,6 @@ export function getContentLogLines(): LogLine[] {
       ]
         .filter((part) => part !== null && part !== undefined)
         .join(" · "),
-    })),
-    ...real(getProjects()).map((p) => ({
-      topic: "project.added",
-      message: p.tech.length ? `${p.name} · ${p.tech.join(", ")}` : p.name,
     })),
   ];
 }

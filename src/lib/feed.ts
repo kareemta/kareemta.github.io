@@ -1,13 +1,12 @@
 /**
  * "Latest events" feed for the home page: the newest real entry of each kind
- * (review, trip, project), newest first. Server-only (reads content).
+ * (review, trip), newest first. Server-only (reads content).
  *
  * Each item carries both a topic-style label (`review.book`) and a plain-English
  * one ("Book review"), per the spec's vocabulary rule. Review events also carry
  * the full review so the feed renders <ReviewCard> for them.
  */
 import {
-  getProjects,
   getReviews,
   getTravel,
   publishable,
@@ -15,7 +14,7 @@ import {
 } from "@/lib/content";
 import { formatRating, offsetLabel, REVIEW_TYPE_LABEL, REVIEW_TYPE_PAGE, reviewTopic } from "@/lib/format";
 
-export type FeedKind = "review" | "trip" | "project";
+export type FeedKind = "review" | "trip";
 
 export type FeedEvent = {
   kind: FeedKind;
@@ -39,7 +38,7 @@ export type FeedEvent = {
 /**
  * Newest first, comparing `date` as a string. A trip has at most a year
  * ("2024"), which sorts after full dates in the same year and before earlier
- * years; trips without a year and projects (never dated) sort last.
+ * years; trips without a year sort last.
  */
 const byDateDesc = (a: FeedEvent, b: FeedEvent) => (b.date ?? "").localeCompare(a.date ?? "");
 
@@ -81,19 +80,6 @@ export function getLatestEvents(): FeedEvent[] {
           ? `${formatRating(trip.rating)}/10 · ${trip.highlight}`
           : trip.highlight,
       href: "/travel/",
-    });
-  }
-
-  // Projects have no date; the first one listed in projects.json counts as newest.
-  const project = publishable(getProjects())[0];
-  if (project) {
-    events.push({
-      kind: "project",
-      topic: "project.added",
-      label: "Project",
-      title: project.name,
-      detail: project.oneLiner,
-      href: "/work/",
     });
   }
 

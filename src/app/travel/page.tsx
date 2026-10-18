@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import EmptyState from "@/components/EmptyState/EmptyState";
 import PageHeader from "@/components/PageHeader/PageHeader";
 import TravelExplorer from "@/components/TravelExplorer/TravelExplorer";
-import { getSite, getTravel, publishable } from "@/lib/content";
+import { getTravel, publishable } from "@/lib/content";
 
-export function generateMetadata(): Metadata {
-  return { title: `Travel · ${getSite().displayName}` };
-}
+export const metadata: Metadata = pageMetadata({
+  title: "Travel",
+  description:
+    "Places visited, each with a score out of 10 and a one-line highlight, on an interactive globe.",
+  path: "/travel/",
+});
 
 export default function TravelPage() {
   // Placeholder and TODO(user) entries never reach the page. Highest rated first

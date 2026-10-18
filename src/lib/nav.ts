@@ -1,3 +1,15 @@
+export type NavItem = { href: string; label: string };
+
+/** Site sections, in the order they appear in the nav (also used by the sitemap and 404 page). */
+export const NAV_ITEMS: NavItem[] = [
+  { href: "/work/", label: "Work" },
+  { href: "/books/", label: "Books" },
+  { href: "/movies/", label: "Movies" },
+  { href: "/tv/", label: "TV" },
+  { href: "/travel/", label: "Travel" },
+  { href: "/contact/", label: "Contact" },
+];
+
 /** Strip the trailing slash (trailingSlash: true) so "/work/" and "/work" compare equal. */
 export function normalizePath(path: string): string {
   return path.length > 1 ? path.replace(/\/+$/, "") : path;

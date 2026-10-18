@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <title>kareem/</title>
+  <!-- "k/" mark drawn as strokes (no font needed). Accent tokens: light #2f5bea / dark #7c9bff. -->
+  <style>
+    .bg { fill: #2f5bea; }
+    .mark { stroke: #ffffff; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #7c9bff; }
+      .mark { stroke: #0d1117; }
+    }
+  </style>
+  <rect class="bg" width="32" height="32" rx="7" />
+  <g class="mark" fill="none" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8.5 7.5v17" />
+    <path d="M17 12.5l-8.5 7" />
+    <path d="M12.2 17.4l5.3 7.1" />
+    <path d="M26 7.5l-5.5 17" />
+  </g>
+</svg>
