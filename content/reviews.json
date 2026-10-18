@@ -415,5 +415,39 @@
     "rating": 7,
     "dateReviewed": "2026-10-18",
     "take": "First few seasons are amazing but the show gets worse as it ages, last couple seasons are unwatchable"
+  },
+  {
+    "id": "the-hundred-years-war-on-palestine-2020",
+    "offset": 38,
+    "title": "The Hundred Years' War on Palestine",
+    "type": "book",
+    "creator": "Rashid Khalidi",
+    "year": 2020,
+    "rating": 6.5,
+    "dateReviewed": "2026-10-18",
+    "take": "Maybe it's because I consider myself a history buff but I feel like I didn't learn much coming out of this book, and felt it the same story repeated multiple times over decades (I will say for someone who has no knowledge on the history there's much to learn from this). I did enjoy the chapters where he talked about his living in Beirut during the Lebanese Civil War because those were interesting times.",
+    "cover": "/covers/the-hundred-years-war-on-palestine-2020.jpg"
+  },
+  {
+    "id": "prison-break-2005",
+    "offset": 39,
+    "title": "Prison Break",
+    "type": "tv",
+    "creator": "Fox",
+    "year": 2005,
+    "rating": 7.5,
+    "dateReviewed": "2026-10-18",
+    "take": "First two maybe 3 seasons are amazing but again the scope of the show keeps getting bigger and bigger to the point where it feels a little unrealistic"
+  },
+  {
+    "id": "friends-1994",
+    "offset": 40,
+    "title": "Friends",
+    "type": "tv",
+    "creator": "NBC",
+    "year": 1994,
+    "rating": 9,
+    "dateReviewed": "2026-10-18",
+    "take": "Current watch: Never was into sitcoms but really enjoying this for the first time despite being insanely late"
   }
 ]
