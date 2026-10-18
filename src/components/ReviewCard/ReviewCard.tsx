@@ -1,12 +1,12 @@
 import Link from "next/link";
 import ReviewCover from "@/components/ReviewCover/ReviewCover";
 import type { Review } from "@/lib/content";
-import { formatRating, offsetLabel, REVIEW_TYPE_LABEL } from "@/lib/format";
+import { formatRating, offsetLabel, REVIEW_TYPE_LABEL, reviewTopic } from "@/lib/format";
 import styles from "./ReviewCard.module.css";
 
 type ReviewCardProps = {
   review: Review;
-  /** "full" on /reviews; "compact" (smaller cover, no take) in feeds. */
+  /** "full" on the Books / Movies / TV pages; "compact" (smaller cover, no take) in feeds. */
   variant?: "full" | "compact";
   /** Heading level for the title, to fit the page outline. */
   headingLevel?: 2 | 3;
@@ -34,7 +34,7 @@ export default function ReviewCard({
       <p className={styles.meta}>
         <span className={styles.badge}>{REVIEW_TYPE_LABEL[review.type]}</span>
         <span className={styles.stream} aria-hidden="true">
-          {offsetLabel(review.offset)} · review.{review.type} · {review.dateReviewed}
+          {offsetLabel(review.offset)} · {reviewTopic(review.type)} · {review.dateReviewed}
         </span>
       </p>
 

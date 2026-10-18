@@ -1,65 +1,36 @@
 "use client";
 
 import { useId, useState } from "react";
-import EmptyState from "@/components/EmptyState/EmptyState";
 import ReviewCard from "@/components/ReviewCard/ReviewCard";
-import type { Review } from "@/lib/content";
-import { REVIEW_TYPE_LABEL, reviewTypes } from "@/lib/format";
-import { filterReviews, sortReviews, type ReviewFilter, type ReviewSort } from "@/lib/reviews";
+import type { Review, ReviewType } from "@/lib/content";
+import { reviewNoun } from "@/lib/format";
+import { sortReviews, type ReviewSort } from "@/lib/reviews";
 import styles from "./ReviewBrowser.module.css";
-
-const FILTERS: { value: ReviewFilter; label: string }[] = [
-  { value: "all", label: "All" },
-  ...reviewTypes.map((t) => ({ value: t, label: REVIEW_TYPE_LABEL[t] })),
-];
 
 const SORTS: { value: ReviewSort; label: string }[] = [
   { value: "date", label: "Newest" },
   { value: "rating", label: "Highest rated" },
 ];
 
-/** "3 reviews", "1 book review", "2 TV reviews". */
-function countLabel(n: number, filter: ReviewFilter): string {
-  // "Book" -> "book", but acronyms like "TV" keep their case.
-  const label = filter === "all" ? "" : REVIEW_TYPE_LABEL[filter];
-  const kind = label ? `${label === label.toUpperCase() ? label : label.toLowerCase()} ` : "";
-  return `${n} ${kind}${n === 1 ? "review" : "reviews"}`;
-}
+type ReviewBrowserProps = {
+  /** Reviews of one type, already newest first. */
+  reviews: Review[];
+  type: ReviewType;
+};
 
 /**
- * Filter (All / Book / TV / Film) and sort (newest / highest rated) for the
- * reviews list, with native radio groups. The first render matches the static
- * HTML (all, newest first), so the page works and reads correctly without JS.
+ * Sort control (newest / highest rated) and list for one review type, as a
+ * native radio group. The first render matches the static HTML (newest first),
+ * so the page works and reads correctly without JS.
  */
-export default function ReviewBrowser({ reviews }: { reviews: Review[] }) {
-  const [filter, setFilter] = useState<ReviewFilter>("all");
+export default function ReviewBrowser({ reviews, type }: ReviewBrowserProps) {
   const [sort, setSort] = useState<ReviewSort>("date");
   const id = useId();
-
-  const shown = sortReviews(filterReviews(reviews, filter), sort);
+  const shown = sortReviews(reviews, sort);
 
   return (
-    <div className={styles.browser}>
+    <div>
       <div className={styles.controls}>
-        <fieldset className={styles.group}>
-          <legend className={styles.legend}>Type</legend>
-          <div className={styles.options}>
-            {FILTERS.map((f) => (
-              <label key={f.value} className={styles.option}>
-                <input
-                  type="radio"
-                  name={`${id}-type`}
-                  value={f.value}
-                  checked={filter === f.value}
-                  onChange={() => setFilter(f.value)}
-                  className={styles.input}
-                />
-                {f.label}
-              </label>
-            ))}
-          </div>
-        </fieldset>
-
         <fieldset className={styles.group}>
           <legend className={styles.legend}>Sort by</legend>
           <div className={styles.options}>
@@ -81,22 +52,17 @@ export default function ReviewBrowser({ reviews }: { reviews: Review[] }) {
       </div>
 
       <p className={styles.count} role="status" aria-live="polite">
-        Showing {countLabel(shown.length, filter)}
+        Showing {shown.length} {reviewNoun(type, shown.length)}
+        {shown.length > 1 ? `, ${sort === "rating" ? "highest rated" : "newest"} first` : ""}
       </p>
 
-      {shown.length > 0 ? (
-        <ol className={styles.list}>
-          {shown.map((review) => (
-            <li key={review.id}>
-              <ReviewCard review={review} headingLevel={2} />
-            </li>
-          ))}
-        </ol>
-      ) : (
-        <EmptyState stream={`0 events · review.${filter === "all" ? "*" : filter}`}>
-          No {countLabel(0, filter).replace(/^0 /, "")} yet.
-        </EmptyState>
-      )}
+      <ol className={styles.list}>
+        {shown.map((review) => (
+          <li key={review.id}>
+            <ReviewCard review={review} headingLevel={2} />
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }

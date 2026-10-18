@@ -3,11 +3,12 @@ import SiteNav, { type NavItem } from "@/components/SiteNav/SiteNav";
 import Wordmark from "@/components/Wordmark/Wordmark";
 import styles from "./SiteHeader.module.css";
 
-/** Site sections, in the order they appear in the nav. Pages arrive in Phase 3. */
+/** Site sections, in the order they appear in the nav. */
 const NAV_ITEMS: NavItem[] = [
   { href: "/work/", label: "Work" },
-  { href: "/writing/", label: "Writing" },
-  { href: "/reviews/", label: "Reviews" },
+  { href: "/books/", label: "Books" },
+  { href: "/movies/", label: "Movies" },
+  { href: "/tv/", label: "TV" },
   { href: "/travel/", label: "Travel" },
   { href: "/contact/", label: "Contact" },
 ];

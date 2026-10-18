@@ -123,7 +123,7 @@ async function discoverRoutes(dir = OUT_DIR, prefix = "/") {
   const entries = await fsp.readdir(dir, { withFileTypes: true });
   for (const entry of entries) {
     if (entry.isFile() && entry.name === "index.html") routes.push(prefix);
-    // Skip build internals and reserved "_" routes (e.g. /writing/_empty/, a 404 stand-in).
+    // Skip build internals and reserved "_"-prefixed routes (stand-ins, not real pages).
     if (entry.isDirectory() && !SKIP_DIRS.has(entry.name) && !entry.name.startsWith("_")) {
       routes.push(
         ...(await discoverRoutes(path.join(dir, entry.name), `${prefix}${entry.name}/`)),

@@ -5,7 +5,7 @@ import SectionHeading from "@/components/SectionHeading/SectionHeading";
 import type { FeedEvent } from "@/lib/feed";
 import styles from "./LatestEvents.module.css";
 
-/** Home-page feed of the newest review, trip, post and project. */
+/** Home-page feed of the newest review, trip and project. */
 export default function LatestEvents({ events }: { events: FeedEvent[] }) {
   return (
     <section aria-labelledby="latest-heading">
@@ -29,7 +29,7 @@ export default function LatestEvents({ events }: { events: FeedEvent[] }) {
         </ol>
       ) : (
         <EmptyState stream="0 events · stream idle">
-          Nothing here yet. New reviews, trips, posts and projects will show up here.
+          Nothing here yet. New reviews, trips and projects will show up here.
         </EmptyState>
       )}
     </section>

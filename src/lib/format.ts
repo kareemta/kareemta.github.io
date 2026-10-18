@@ -7,12 +7,34 @@
 export const reviewTypes = ["book", "tv", "film"] as const;
 export type ReviewType = (typeof reviewTypes)[number];
 
-/** Plain-English review type badges. */
+/**
+ * Plain-English review type labels (badges, fallback covers, count text). The
+ * internal type "film" is shown as "Movie" everywhere visitors can see it.
+ */
 export const REVIEW_TYPE_LABEL: Record<ReviewType, string> = {
   book: "Book",
   tv: "TV",
-  film: "Film",
+  film: "Movie",
 };
+
+/** Visible topic label. Stored type "film" is shown as "movie" to match the UI. */
+export function reviewTopic(type: ReviewType): string {
+  return `review.${type === "film" ? "movie" : type}`;
+}
+
+/** One page per review type: where it lives and what it's called. */
+export const REVIEW_TYPE_PAGE: Record<ReviewType, { href: string; title: string }> = {
+  book: { href: "/books/", title: "Books" },
+  film: { href: "/movies/", title: "Movies" },
+  tv: { href: "/tv/", title: "TV" },
+};
+
+/** "book review(s)", "movie review(s)", "TV review(s)" for count text. */
+export function reviewNoun(type: ReviewType, count: number): string {
+  const label = REVIEW_TYPE_LABEL[type];
+  const word = label === label.toUpperCase() ? label : label.toLowerCase();
+  return `${word} ${count === 1 ? "review" : "reviews"}`;
+}
 
 /** Event offset as shown on the site, e.g. 42 -> "#0042". */
 export const offsetLabel = (n: number) => `#${String(n).padStart(4, "0")}`;

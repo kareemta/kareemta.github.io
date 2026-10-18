@@ -12,7 +12,7 @@ const pick = <T,>(items: readonly T[]): T => items[Math.floor(Math.random() * it
 const int = (min: number, max: number) => min + Math.floor(Math.random() * (max - min + 1));
 
 const GROUPS = ["site-feed", "events-consumer", "indexer", "notifier"] as const;
-const TOPICS = ["events", "reviews", "travel", "posts"] as const;
+const TOPICS = ["events", "reviews", "travel", "projects"] as const;
 
 const INFRA: (() => LogLine)[] = [
   () => ({ topic: "consumer.lag", message: `group=${pick(GROUPS)} partition=${int(0, 11)} lag=${int(0, 40)}` }),

@@ -5,7 +5,7 @@ export function normalizePath(path: string): string {
 
 /**
  * aria-current for a link: "page" on an exact match, "true" when the visitor is
- * deeper inside that section (e.g. a single post under /writing). The home link
+ * deeper inside that section (e.g. a sub-page under /work). The home link
  * only ever matches exactly.
  */
 export function ariaCurrentFor(pathname: string, href: string): "page" | "true" | undefined {

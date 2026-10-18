@@ -11,7 +11,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { z } from "zod";
-import { formatRating, offsetLabel, reviewTypes } from "@/lib/format";
+import { formatRating, offsetLabel, reviewTopic, reviewTypes } from "@/lib/format";
 import type { LogLine } from "@/lib/logLines";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
@@ -230,19 +230,6 @@ export const experienceSchema = z.object({
   entries: z.array(experienceEntrySchema),
 });
 
-export const postMetaSchema = z.object({
-  slug: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Expected a lowercase slug"),
-  title: nonEmpty,
-  date: orTodo(isoDate),
-  summary: nonEmpty,
-  draft: z.boolean().optional(),
-  placeholder,
-});
-
-export const postIndexSchema = z
-  .array(postMetaSchema)
-  .superRefine(uniqueBy((p) => p.slug, "slug"));
-
 /* ------------------------------------------------------------------ */
 /* Types                                                               */
 /* ------------------------------------------------------------------ */
@@ -255,15 +242,6 @@ export type Place = z.infer<typeof travelSchema>;
 export type Project = z.infer<typeof projectSchema>;
 export type ExperienceEntry = z.infer<typeof experienceEntrySchema>;
 export type Experience = z.infer<typeof experienceSchema>;
-export type PostMeta = z.infer<typeof postMetaSchema>;
-export type Post = PostMeta & {
-  /** "md" for plain Markdown, "mdx" for MDX. */
-  format: "md" | "mdx";
-  /** Raw source; rendered at build time by src/lib/mdx.tsx. */
-  body: string;
-  readingMinutes: number;
-};
-
 /* ------------------------------------------------------------------ */
 /* Loading                                                             */
 /* ------------------------------------------------------------------ */
@@ -358,83 +336,6 @@ export function getExperienceEntries(): ExperienceEntry[] {
   );
 }
 
-const POSTS_INDEX = "posts/index.json";
-
-const POST_EXT = /\.mdx?$/i;
-
-/**
- * Loads posts/index.json and checks it matches the post files one-to-one. A post
- * is `content/posts/<slug>.md` (plain Markdown) or `<slug>.mdx` (MDX), not both.
- */
-function getPostIndex(): PostMeta[] {
-  const index = loadJson(POSTS_INDEX, postIndexSchema);
-
-  const postsDir = path.join(CONTENT_DIR, "posts");
-  const files = fs.readdirSync(postsDir).filter((f) => POST_EXT.test(f));
-  const fileSlugs = files.map((f) => f.replace(POST_EXT, ""));
-  const problems: string[] = [];
-
-  for (const { slug } of index) {
-    const count = fileSlugs.filter((s) => s === slug).length;
-    if (count === 0) {
-      problems.push(`  - "${slug}" has no matching file content/posts/${slug}.md or .mdx`);
-    } else if (count > 1) {
-      problems.push(`  - "${slug}" has both a .md and an .mdx file; keep one`);
-    }
-  }
-  const slugs = new Set(index.map((p) => p.slug));
-  files.forEach((file, i) => {
-    if (!slugs.has(fileSlugs[i])) {
-      problems.push(`  - content/posts/${file} is not listed in ${POSTS_INDEX}`);
-    }
-  });
-  if (problems.length) throw new ContentError(POSTS_INDEX, problems.join("\n"));
-
-  return index;
-}
-
-/** Sort comparator for ISO dates, newest first, with `TODO(user)` dates last. */
-export function compareDatesNewestFirst(a: string, b: string): number {
-  if (a === TODO || b === TODO) return Number(a === TODO) - Number(b === TODO);
-  return b.localeCompare(a);
-}
-
-/** Post metadata, newest first. Drafts are left out unless asked for. */
-export function getPosts({ includeDrafts = false } = {}): PostMeta[] {
-  return getPostIndex()
-    .filter((p) => includeDrafts || !p.draft)
-    .toSorted((a, b) => compareDatesNewestFirst(a.date, b.date));
-}
-
-/** One post with its raw body. Throws if the slug is unknown. */
-export function getPost(slug: string): Post {
-  const meta = getPostIndex().find((p) => p.slug === slug);
-  if (!meta) throw new ContentError(POSTS_INDEX, `  - no post with slug "${slug}"`);
-  const format = fs.existsSync(path.join(CONTENT_DIR, "posts", `${slug}.mdx`)) ? "mdx" : "md";
-  const body = readContentFile(`posts/${slug}.${format}`);
-  return { ...meta, format, body, readingMinutes: readingMinutes(body) };
-}
-
-/** Published (non-draft, non-placeholder) posts, newest first: what the site shows. */
-export function getPublishedPosts(): PostMeta[] {
-  return publishable(getPosts());
-}
-
-const WORDS_PER_MINUTE = 230;
-
-/**
- * Reading time in whole minutes (at least 1). Counts words in the prose; code
- * blocks (``` or ~~~ fences) are skipped since people scan rather than read them.
- */
-export function readingMinutes(body: string): number {
-  const prose = body
-    .replace(/```[\s\S]*?```/g, " ")
-    .replace(/~~~[\s\S]*?~~~/g, " ")
-    .replace(/<[^>]+>/g, " ");
-  const words = prose.match(/[\p{L}\p{N}'’-]+/gu)?.length ?? 0;
-  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
-}
-
 /**
  * Loads and checks every content file. The root layout calls this, so any invalid
  * file fails `next build` even before a page uses that collection.
@@ -445,7 +346,6 @@ export function validateAllContent(): void {
   getTravel();
   getProjects();
   getExperience();
-  getPostIndex();
 }
 
 /* ------------------------------------------------------------------ */
@@ -476,16 +376,12 @@ export function getContentLogLines(): LogLine[] {
 
   return [
     ...real(getReviews()).map((r) => ({
-      topic: `review.${r.type}`,
+      topic: reviewTopic(r.type),
       message: `${offsetLabel(r.offset)} "${r.title}" · ${r.creator} · ${formatRating(r.rating)}/10`,
     })),
     ...real(getTravel()).map((p) => ({
       topic: "travel.visited",
       message: `${p.name}, ${p.country} · ${p.year}`,
-    })),
-    ...real(getPosts()).map((p) => ({
-      topic: "post.published",
-      message: `"${p.title}" · ${p.date}`,
     })),
     ...real(getProjects()).map((p) => ({
       topic: "project.added",

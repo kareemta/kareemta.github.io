@@ -1,22 +1,21 @@
 /**
  * "Latest events" feed for the home page: the newest real entry of each kind
- * (review, trip, post, project), newest first. Server-only (reads content).
+ * (review, trip, project), newest first. Server-only (reads content).
  *
  * Each item carries both a topic-style label (`review.book`) and a plain-English
  * one ("Book review"), per the spec's vocabulary rule. Review events also carry
  * the full review so the feed renders <ReviewCard> for them.
  */
 import {
-  getPosts,
   getProjects,
   getReviews,
   getTravel,
   publishable,
   type Review,
 } from "@/lib/content";
-import { formatRating, offsetLabel, REVIEW_TYPE_LABEL } from "@/lib/format";
+import { formatRating, offsetLabel, REVIEW_TYPE_LABEL, REVIEW_TYPE_PAGE, reviewTopic } from "@/lib/format";
 
-export type FeedKind = "review" | "trip" | "post" | "project";
+export type FeedKind = "review" | "trip" | "project";
 
 export type FeedEvent = {
   kind: FeedKind;
@@ -54,13 +53,13 @@ export function getLatestEvents(): FeedEvent[] {
   if (review) {
     events.push({
       kind: "review",
-      topic: `review.${review.type}`,
+      topic: reviewTopic(review.type),
       label: `${REVIEW_TYPE_LABEL[review.type]} review`,
       offset: offsetLabel(review.offset),
       date: review.dateReviewed,
       title: review.title,
       detail: `${review.creator} · ${formatRating(review.rating)}/10`,
-      href: "/reviews/",
+      href: REVIEW_TYPE_PAGE[review.type].href,
       review,
     });
   }
@@ -76,20 +75,6 @@ export function getLatestEvents(): FeedEvent[] {
       title: `${trip.name}, ${trip.country}`,
       detail: trip.highlight,
       href: "/travel/",
-    });
-  }
-
-  // getPosts() already hides drafts and sorts newest first.
-  const post = publishable(getPosts())[0];
-  if (post) {
-    events.push({
-      kind: "post",
-      topic: "post.published",
-      label: "Post",
-      date: post.date,
-      title: post.title,
-      detail: post.summary,
-      href: `/writing/${post.slug}/`,
     });
   }
 
