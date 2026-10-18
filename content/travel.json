@@ -1,11 +1,234 @@
 [
   {
-    "name": "TODO(user)",
-    "country": "TODO(user)",
-    "lat": 0,
-    "lng": 0,
-    "year": 0,
-    "highlight": "TODO(user)",
-    "placeholder": true
+    "name": "San Francisco",
+    "country": "United States",
+    "lat": 37.7749,
+    "lng": -122.4194,
+    "rating": 8,
+    "highlight": "Beautiful nature-wise, weather could be a bit nicer, felt very European to me"
+  },
+  {
+    "name": "Los Angeles",
+    "country": "United States",
+    "lat": 34.0522,
+    "lng": -118.2437,
+    "rating": 8,
+    "highlight": "California has the most amazing weather the only issue with this place is the traffic is something else"
+  },
+  {
+    "name": "San Diego",
+    "country": "United States",
+    "lat": 32.7157,
+    "lng": -117.1611,
+    "rating": 9,
+    "highlight": "Probably the closest thing to heaven on earth in terms of weather and far calmer traffic, a bit boring though"
+  },
+  {
+    "name": "Kansas City",
+    "country": "United States",
+    "lat": 39.0997,
+    "lng": -94.5786,
+    "rating": 6,
+    "highlight": "Went there for the World Cup thought it was a very average Midwestern city, albeit a little newer than most"
+  },
+  {
+    "name": "Dallas",
+    "country": "United States",
+    "lat": 32.7767,
+    "lng": -96.797,
+    "rating": 6,
+    "highlight": "The people make or break this place as it all just a large suburban sprawl that goes on seemingly forever"
+  },
+  {
+    "name": "Austin",
+    "country": "United States",
+    "lat": 30.2672,
+    "lng": -97.7431,
+    "rating": 8.5,
+    "highlight": "A city with a very active and outdoorsy culture and just very fun and young transplant city"
+  },
+  {
+    "name": "Chicago",
+    "country": "United States",
+    "lat": 41.8781,
+    "lng": -87.6298,
+    "rating": 6,
+    "highlight": "I find Chicago to be beautiful in the summer and terrible in the winter, there isn't much to do but there are some fun pockets e.g. Wicker Park"
+  },
+  {
+    "name": "Indianapolis",
+    "country": "United States",
+    "lat": 39.7684,
+    "lng": -86.1581,
+    "rating": 5,
+    "highlight": "A very average and normal midwestern city"
+  },
+  {
+    "name": "Detroit",
+    "country": "United States",
+    "lat": 42.3314,
+    "lng": -83.0458,
+    "rating": 5.5,
+    "highlight": "A recovering Midwestern City and homebase"
+  },
+  {
+    "name": "Washington, D.C.",
+    "country": "United States",
+    "lat": 38.9072,
+    "lng": -77.0369,
+    "rating": 8,
+    "highlight": "A city with culture and history and the weather is amazing"
+  },
+  {
+    "name": "Philadelphia",
+    "country": "United States",
+    "lat": 39.9526,
+    "lng": -75.1652,
+    "rating": 4.5,
+    "highlight": "I didn't enjoy this place one bit truth be told"
+  },
+  {
+    "name": "New York",
+    "country": "United States",
+    "lat": 40.7128,
+    "lng": -74.006,
+    "rating": 10,
+    "highlight": "The greatest city in the world in every aspect"
+  },
+  {
+    "name": "St. Thomas & St. John",
+    "country": "U.S. Virgin Islands",
+    "lat": 18.3381,
+    "lng": -64.8941,
+    "rating": 8,
+    "highlight": "Most beautiful beaches in the world nothing remotely compares, unfortunately a little dangerous"
+  },
+  {
+    "name": "Paris",
+    "country": "France",
+    "lat": 48.8566,
+    "lng": 2.3522,
+    "rating": 8,
+    "highlight": "A city that felt the closest to New York but still not New York"
+  },
+  {
+    "name": "Marseille",
+    "country": "France",
+    "lat": 43.2965,
+    "lng": 5.3698,
+    "rating": 5,
+    "highlight": "Dangerous and not much to do"
+  },
+  {
+    "name": "Nice",
+    "country": "France",
+    "lat": 43.7102,
+    "lng": 7.262,
+    "rating": 7,
+    "highlight": "I feel like this place would've been more fun with a wife rather than the boys but it was still really nice and scenic"
+  },
+  {
+    "name": "Monaco",
+    "country": "Monaco",
+    "lat": 43.7384,
+    "lng": 7.4246,
+    "rating": 5,
+    "highlight": "Not much to do except gawk at people with expensive cars in front of the casino"
+  },
+  {
+    "name": "Rome",
+    "country": "Italy",
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "rating": 8,
+    "highlight": "A beautiful city with so much history and 1 of 1 in terms of architecture highly recommend"
+  },
+  {
+    "name": "Naples",
+    "country": "Italy",
+    "lat": 40.8518,
+    "lng": 14.2681,
+    "rating": 5,
+    "highlight": "Very similar to Marseille and just as dangerous the food is great though"
+  },
+  {
+    "name": "Amalfi",
+    "country": "Italy",
+    "lat": 40.634,
+    "lng": 14.6027,
+    "rating": 7.5,
+    "highlight": "Renting a boat here was amazing a little romantic so probably again not the best place to visit with the boys"
+  },
+  {
+    "name": "Athens",
+    "country": "Greece",
+    "lat": 37.9838,
+    "lng": 23.7275,
+    "rating": 7,
+    "highlight": "It's saving grace is the history other than that I felt like it was an okayish city"
+  },
+  {
+    "name": "Santorini",
+    "country": "Greece",
+    "lat": 36.3932,
+    "lng": 25.4615,
+    "rating": 8,
+    "highlight": "An ideal honey moon spot and a very fun island"
+  },
+  {
+    "name": "Barcelona",
+    "country": "Spain",
+    "lat": 41.3874,
+    "lng": 2.1686,
+    "rating": 9.5,
+    "highlight": "Felt very similar to Syria, the food was great, so much to do and a great time"
+  },
+  {
+    "name": "Marbella & Málaga",
+    "country": "Spain",
+    "lat": 36.5101,
+    "lng": -4.8825,
+    "rating": 9,
+    "highlight": "The BnB's available here carry and the views are beautiful along with the beaches, outside of that though there isn't much to do"
+  },
+  {
+    "name": "Tangier",
+    "country": "Morocco",
+    "lat": 35.7595,
+    "lng": -5.834,
+    "rating": 8,
+    "highlight": "A bit biased because it's somewhat home but a beautiful city that melds European, and North Africa and looks like Southern California"
+  },
+  {
+    "name": "Rabat",
+    "country": "Morocco",
+    "lat": 34.0209,
+    "lng": -6.8416,
+    "rating": 4,
+    "highlight": "Felt like a fake city with nothing to do"
+  },
+  {
+    "name": "Casablanca",
+    "country": "Morocco",
+    "lat": 33.5731,
+    "lng": -7.5898,
+    "rating": 7,
+    "highlight": "Was very beautiful but didn't spend much time there"
+  },
+  {
+    "name": "Damascus",
+    "country": "Syria",
+    "lat": 33.5138,
+    "lng": 36.2765,
+    "rating": 9.5,
+    "highlight": "A lot of fond memories with family here, haven't been here in a long time but still beautiful and filled with history (oldest continuously inhabited city in the world)"
+  },
+  {
+    "name": "Hama",
+    "country": "Syria",
+    "lat": 35.1318,
+    "lng": 36.7578,
+    "rating": 8,
+    "highlight": "A bit more boring than Damascus but had the most amazing food I've ever had and overall beautiful"
   }
 ]

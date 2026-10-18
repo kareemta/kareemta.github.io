@@ -137,7 +137,7 @@
   overflow-wrap: anywhere;
 }
 
-.itemYear {
+.itemMeta {
   flex: none;
   color: var(--color-muted);
   font-family: var(--font-mono);

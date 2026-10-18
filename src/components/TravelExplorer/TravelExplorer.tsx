@@ -2,8 +2,9 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useCallback, useState, useSyncExternalStore } from "react";
+import { useCallback, useRef, useState, useSyncExternalStore } from "react";
 import type { Place } from "@/lib/content";
+import { formatRating } from "@/lib/format";
 import styles from "./TravelExplorer.module.css";
 
 // three.js + react-globe.gl: browser-only and heavy, so loaded on demand.
@@ -29,6 +30,28 @@ function hasWebGL(): boolean {
 }
 const noSubscribe = () => () => {};
 
+/** "Lisbon, Portugal, rated 8.5 out of 10, 2024" (rating and year only when present). */
+function placeSummary(p: Place): string {
+  return [
+    `${p.name}, ${p.country}`,
+    p.rating !== undefined ? `rated ${formatRating(p.rating)} out of 10` : null,
+    p.year !== undefined ? String(p.year) : null,
+  ]
+    .filter(Boolean)
+    .join(", ");
+}
+
+/** Rating shown as "8.5/10", read by screen readers as "rated 8.5 out of 10". */
+function Rating({ value }: { value: number }) {
+  const r = formatRating(value);
+  return (
+    <>
+      <span aria-hidden="true">{r}/10</span>
+      <span className="visually-hidden">rated {r} out of 10</span>
+    </>
+  );
+}
+
 /**
  * Globe plus the accessible list of places. The list is the keyboard and
  * screen-reader path; choosing a place there (or clicking its pin) flies the
@@ -39,11 +62,24 @@ export default function TravelExplorer({ places }: { places: Place[] }) {
   // null during the static build and first paint, then true/false in the browser.
   const webgl = useSyncExternalStore(noSubscribe, hasWebGL, () => null);
   const select = useCallback((index: number) => setSelected(index), []);
+  const stageRef = useRef<HTMLDivElement>(null);
+
+  /** List choice: select, and bring the globe and details into view if they're off-screen. */
+  const chooseFromList = (index: number) => {
+    setSelected(index);
+    const stage = stageRef.current;
+    if (!stage) return;
+    const { top, bottom } = stage.getBoundingClientRect();
+    if (top < 0 || bottom > window.innerHeight) {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      stage.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    }
+  };
   const place = selected === null ? null : places[selected];
 
   return (
     <div className={styles.explorer}>
-      <div className={styles.stage}>
+      <div ref={stageRef} className={styles.stage}>
         {webgl === false ? (
           <p className={styles.fallback}>
             The interactive globe needs WebGL, which isn&apos;t available in this browser. All
@@ -57,20 +93,29 @@ export default function TravelExplorer({ places }: { places: Place[] }) {
 
         {/* Short announcement for screen readers; the panel below holds the details. */}
         <p className="visually-hidden" role="status" aria-live="polite">
-          {place ? `Showing ${place.name}, ${place.country}, ${place.year}` : ""}
+          {place ? `Showing ${placeSummary(place)}` : ""}
         </p>
 
         <section className={styles.detail} aria-labelledby="place-heading">
           {place ? (
             <>
               <p className={styles.topic} aria-hidden="true">
-                travel.visited · {place.year}
+                travel.visited
+                {place.rating !== undefined ? ` · ${formatRating(place.rating)}/10` : ""}
+                {place.year !== undefined ? ` · ${place.year}` : ""}
               </p>
               <h2 id="place-heading" className={styles.placeName}>
                 {place.name}
               </h2>
               <p className={styles.placeMeta}>
-                {place.country} · {place.year}
+                {place.country}
+                {place.rating !== undefined && (
+                  <>
+                    {" · "}
+                    <Rating value={place.rating} />
+                  </>
+                )}
+                {place.year !== undefined && ` · ${place.year}`}
               </p>
               <p className={styles.highlight}>{place.highlight}</p>
               {place.photo && (
@@ -91,7 +136,7 @@ export default function TravelExplorer({ places }: { places: Place[] }) {
               </h2>
               <p className={styles.hint}>
                 Choose a place from the list{webgl ? " or tap a pin on the globe" : ""} to see
-                when I went and what stood out.
+                its score and what stood out.
               </p>
             </>
           )}
@@ -104,17 +149,23 @@ export default function TravelExplorer({ places }: { places: Place[] }) {
         </h2>
         <ul className={styles.list}>
           {places.map((p, index) => (
-            <li key={`${p.name}-${p.country}-${p.year}`}>
+            <li key={`${p.name}-${p.country}`}>
               <button
                 type="button"
                 className={styles.item}
                 aria-pressed={selected === index}
-                onClick={() => setSelected(index)}
+                onClick={() => chooseFromList(index)}
               >
                 <span className={styles.itemName}>
                   {p.name}, {p.country}
                 </span>
-                <span className={styles.itemYear}>{p.year}</span>
+                {p.rating !== undefined ? (
+                  <span className={styles.itemMeta}>
+                    <Rating value={p.rating} />
+                  </span>
+                ) : p.year !== undefined ? (
+                  <span className={styles.itemMeta}>{p.year}</span>
+                ) : null}
               </button>
             </li>
           ))}

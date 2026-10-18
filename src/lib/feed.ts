@@ -37,10 +37,9 @@ export type FeedEvent = {
 };
 
 /**
- * Newest first, comparing `date` as a string. Trips only have a year ("2024"),
- * which sorts as a string prefix: after any full date in the same year
- * ("2024" < "2024-03-01"), before any earlier year. Projects have no date at all
- * and always sort last. Good enough for a 4-item feed; revisit if trips get dates.
+ * Newest first, comparing `date` as a string. A trip has at most a year
+ * ("2024"), which sorts after full dates in the same year and before earlier
+ * years; trips without a year and projects (never dated) sort last.
  */
 const byDateDesc = (a: FeedEvent, b: FeedEvent) => (b.date ?? "").localeCompare(a.date ?? "");
 
@@ -64,16 +63,23 @@ export function getLatestEvents(): FeedEvent[] {
     });
   }
 
-  // Trips only have a year; on a tie, the one listed first in travel.json wins.
-  const trip = publishable(getTravel()).toSorted((a, b) => b.year - a.year)[0];
+  // Places have no dates (year is optional and usually absent), so "latest" can't
+  // mean newest. Show the highest-rated place instead: it's the most representative
+  // pick, and it's stable. Ties go to the one listed first in travel.json.
+  const trip = publishable(getTravel()).toSorted(
+    (a, b) => (b.rating ?? -1) - (a.rating ?? -1),
+  )[0];
   if (trip) {
     events.push({
       kind: "trip",
       topic: "travel.visited",
       label: "Trip",
-      date: String(trip.year),
+      date: trip.year !== undefined ? String(trip.year) : undefined,
       title: `${trip.name}, ${trip.country}`,
-      detail: trip.highlight,
+      detail:
+        trip.rating !== undefined
+          ? `${formatRating(trip.rating)}/10 · ${trip.highlight}`
+          : trip.highlight,
       href: "/travel/",
     });
   }

@@ -1,3 +1,26 @@
+.stage {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+}
+
+/* Opaque surface button (text never sits on the log stream). */
+.zoomOut {
+  min-height: 2.75rem;
+  padding: 0 var(--space-4);
+  border: var(--border-width) solid var(--color-muted);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.zoomOut:hover {
+  border-color: var(--color-accent);
+}
+
 .wrap {
   position: relative;
   width: 100%;
@@ -5,6 +28,8 @@
   aspect-ratio: 1;
   margin-inline: auto;
   overflow: hidden; /* never let the canvas cause horizontal scroll */
+  /* Circular lens: when zoomed in on close places, the view stays round, not a square tile. */
+  border-radius: 50%;
 }
 
 /* Pin: solid dot in the sphere tone with a land-tone edge (reads on land and ocean),
@@ -20,11 +45,11 @@
   cursor: pointer;
 }
 
-/* Larger invisible tap target. */
+/* Slightly larger invisible tap target; kept small so close pins don't steal each other's taps. */
 .pin::before {
   content: "";
   position: absolute;
-  inset: -10px;
+  inset: -5px;
   border-radius: 50%;
 }
 
@@ -39,6 +64,8 @@
 }
 
 .pin[data-selected] {
+  /* CSS2DRenderer sets z-index inline every frame; keep the selected pin on top. */
+  z-index: 100000 !important;
   width: 14px;
   height: 14px;
 }

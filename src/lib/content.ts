@@ -70,11 +70,22 @@ const year = z.number().int().min(0).max(2100);
  */
 const placeholder = z.boolean().optional();
 
+/** Score out of 10, at most one decimal place (reviews and places). */
+const rating = z
+  .number()
+  .min(0)
+  .max(10)
+  .refine(
+    (r) => Math.abs(r * 10 - Math.round(r * 10)) < 1e-9,
+    "Rating allows at most one decimal place (e.g. 8.5)",
+  );
+
+/** Checks `year` when present (it is optional for places). */
 const requireRealYear = (
-  entry: { placeholder?: boolean; year: number },
+  entry: { placeholder?: boolean; year?: number },
   ctx: z.RefinementCtx,
 ) => {
-  if (!entry.placeholder && entry.year < 1000) {
+  if (!entry.placeholder && entry.year !== undefined && entry.year < 1000) {
     ctx.addIssue({
       code: "custom",
       path: ["year"],
@@ -150,14 +161,7 @@ export const reviewSchema = z
     /** Release / publication year. */
     year,
     /** Score out of 10, at most one decimal place. */
-    rating: z
-      .number()
-      .min(0)
-      .max(10)
-      .refine(
-        (r) => Math.abs(r * 10 - Math.round(r * 10)) < 1e-9,
-        "Rating allows at most one decimal place (e.g. 8.5)",
-      ),
+    rating,
     dateReviewed: orTodo(isoDate),
     /** 1–3 sentences. */
     take: nonEmpty.max(600, "Keep the take to 1–3 sentences (600 characters max)"),
@@ -183,7 +187,11 @@ export const travelSchema = z
     country: nonEmpty,
     lat: z.number().min(-90).max(90),
     lng: z.number().min(-180).max(180),
-    year,
+    /** Optional: when Kareem visited. */
+    year: year.optional(),
+    /** Optional score out of 10, at most one decimal place (same rules as reviews). */
+    rating: rating.optional(),
+    /** One line in Kareem's own words; shown exactly as written. */
     highlight: nonEmpty,
     photo: imagePath("travel").optional(),
     placeholder,
@@ -392,7 +400,13 @@ export function getContentLogLines(): LogLine[] {
     })),
     ...real(getTravel()).map((p) => ({
       topic: "travel.visited",
-      message: `${p.name}, ${p.country} · ${p.year}`,
+      message: [
+        `${p.name}, ${p.country}`,
+        p.rating !== undefined ? `${formatRating(p.rating)}/10` : null,
+        p.year,
+      ]
+        .filter((part) => part !== null && part !== undefined)
+        .join(" · "),
     })),
     ...real(getProjects()).map((p) => ({
       topic: "project.added",

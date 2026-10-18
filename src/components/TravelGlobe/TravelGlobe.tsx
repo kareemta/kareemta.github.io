@@ -28,7 +28,28 @@ const LAND_URL = "/geo/ne_110m_land.json";
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 const MAX_HEIGHT = 560;
 const DEFAULT_POV = { lat: 20, lng: 10, altitude: 1.9 };
-const FOCUS_ALTITUDE = 1.7;
+const FOCUS_ALTITUDE = 1.7; // for places with no close neighbours
+const MIN_ALTITUDE = 0.035;
+/**
+ * Close places (Nice and Monaco, Naples and Amalfi...) overlap at full-globe zoom.
+ * When one is selected, fly in until its nearest neighbour is about PIN_GAP_PX away
+ * on screen. At this camera (50 deg fov, square ~560px canvas) one degree of arc
+ * spans roughly 10.5 / altitude px, so altitude = gap_deg * 10.5 / PIN_GAP_PX. The
+ * scale follows the canvas height (vertical fov), so phones zoom in further.
+ */
+const PIN_GAP_PX = 24;
+const PX_PER_DEG_AT_ALT_1 = 10.5;
+const REFERENCE_HEIGHT_PX = 560;
+
+/** Great-circle distance between two points, in degrees of arc. */
+function arcDegrees(a: { lat: number; lng: number }, b: { lat: number; lng: number }): number {
+  const rad = Math.PI / 180;
+  const dLat = (b.lat - a.lat) * rad;
+  const dLng = (b.lng - a.lng) * rad;
+  const h =
+    Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(dLng / 2) ** 2;
+  return (2 * Math.asin(Math.min(1, Math.sqrt(h)))) / rad;
+}
 const FLY_MS = 900;
 
 type LandFeature = { type: "Feature"; geometry: { type: string; coordinates: number[] } };
@@ -157,6 +178,21 @@ export default function TravelGlobe({ places, selected, onSelect }: TravelGlobeP
     globe.controls().autoRotate = !reducedMotion && selected === null;
   }, [ready, reducedMotion, selected]);
 
+  /* Per-place zoom: close enough that the nearest other place is a distinct pin. */
+  const focusAltitudes = useMemo(
+    () =>
+      places.map((p, i) => {
+        let nearest = Infinity;
+        places.forEach((q, j) => {
+          if (j !== i) nearest = Math.min(nearest, arcDegrees(p, q));
+        });
+        const scale = Math.min(width, MAX_HEIGHT) / REFERENCE_HEIGHT_PX || 1;
+        const alt = (nearest * PX_PER_DEG_AT_ALT_1 * scale) / PIN_GAP_PX;
+        return Math.min(FOCUS_ALTITUDE, Math.max(MIN_ALTITUDE, alt));
+      }),
+    [places, width],
+  );
+
   /* Fly to the selected place. */
   useEffect(() => {
     const globe = globeRef.current;
@@ -165,10 +201,18 @@ export default function TravelGlobe({ places, selected, onSelect }: TravelGlobeP
     if (!place) return;
     globe.controls().autoRotate = false;
     globe.pointOfView(
-      { lat: place.lat, lng: place.lng, altitude: FOCUS_ALTITUDE },
+      { lat: place.lat, lng: place.lng, altitude: focusAltitudes[selected] ?? FOCUS_ALTITUDE },
       reducedMotion ? 0 : FLY_MS,
     );
-  }, [ready, selected, places, reducedMotion]);
+  }, [ready, selected, places, focusAltitudes, reducedMotion]);
+
+  /** Back to the whole-globe view, centred on the current spot. */
+  const zoomOut = useCallback(() => {
+    const globe = globeRef.current;
+    if (!globe) return;
+    const { lat, lng } = globe.pointOfView();
+    globe.pointOfView({ lat, lng, altitude: DEFAULT_POV.altitude }, reducedMotion ? 0 : FLY_MS);
+  }, [reducedMotion]);
 
   /* Pause rendering when the tab is hidden or the globe is offscreen. */
   useEffect(() => {
@@ -224,32 +268,39 @@ export default function TravelGlobe({ places, selected, onSelect }: TravelGlobeP
   const height = Math.min(width, MAX_HEIGHT);
 
   return (
-    // Decorative for assistive tech: the list and detail panel carry the same content.
-    <div ref={wrapRef} className={styles.wrap} aria-hidden="true">
-      {width > 0 && (
-        <Globe
-          ref={globeRef}
-          width={width}
-          height={height}
-          backgroundColor="rgba(0,0,0,0)"
-          globeMaterial={sphereMaterial}
-          showAtmosphere={false}
-          showGraticules={false}
-          animateIn={false}
-          onGlobeReady={handleReady}
-          polygonsData={land}
-          polygonCapMaterial={() => landMaterial}
-          polygonSideColor={() => "rgba(0,0,0,0)"}
-          polygonStrokeColor={() => false}
-          polygonAltitude={0.006}
-          polygonsTransitionDuration={0}
-          htmlElementsData={pins}
-          htmlLat="lat"
-          htmlLng="lng"
-          htmlAltitude={0.01}
-          htmlElement={makePin}
-          htmlTransitionDuration={0}
-        />
+    <div className={styles.stage}>
+      {/* Decorative for assistive tech: the list and detail panel carry the same content. */}
+      <div ref={wrapRef} className={styles.wrap} aria-hidden="true">
+        {width > 0 && (
+          <Globe
+            ref={globeRef}
+            width={width}
+            height={height}
+            backgroundColor="rgba(0,0,0,0)"
+            globeMaterial={sphereMaterial}
+            showAtmosphere={false}
+            showGraticules={false}
+            animateIn={false}
+            onGlobeReady={handleReady}
+            polygonsData={land}
+            polygonCapMaterial={() => landMaterial}
+            polygonSideColor={() => "rgba(0,0,0,0)"}
+            polygonStrokeColor={() => false}
+            polygonAltitude={0.006}
+            polygonsTransitionDuration={0}
+            htmlElementsData={pins}
+            htmlLat="lat"
+            htmlLng="lng"
+            htmlAltitude={0.01}
+            htmlElement={makePin}
+            htmlTransitionDuration={0}
+          />
+        )}
+      </div>
+      {ready && selected !== null && (
+        <button type="button" className={styles.zoomOut} onClick={zoomOut}>
+          Show whole globe
+        </button>
       )}
     </div>
   );
