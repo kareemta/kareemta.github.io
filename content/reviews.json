@@ -151,7 +151,8 @@
     "year": 1999,
     "rating": 10,
     "dateReviewed": "2026-10-18",
-    "take": "A show I quite literally watch over and over again on repeat, it's funny, has great drama and acting, the best quotes and has kind of spawned it's own internet subculture. Can sometimes be a little slow for some people to start"
+    "take": "A show I quite literally watch over and over again on repeat, it's funny, has great drama and acting, the best quotes and has kind of spawned it's own internet subculture. Can sometimes be a little slow for some people to start",
+    "cover": "/covers/the-sopranos-1999.jpg"
   },
   {
     "id": "boardwalk-empire-2010",
@@ -162,7 +163,8 @@
     "year": 2010,
     "rating": 6.5,
     "dateReviewed": "2026-10-18",
-    "take": "A Peaky Blinders equivalent in America during Prohibition. Follows Nucky Thompson, Al Capone, Lucky Luciano, Arnold Rothstein etc. Really enjoyed how it showed so many historic crime figures of the era interacting and intersecting with each other. Found the ending to be a little lackluster imo. I also tended to like other characters over Nucky who's the main character like Lucky, Richard Harrow, Jimmy and Al Capone. Absolutely hated Margaret (practically all her scenes are skippable)"
+    "take": "A Peaky Blinders equivalent in America during Prohibition. Follows Nucky Thompson, Al Capone, Lucky Luciano, Arnold Rothstein etc. Really enjoyed how it showed so many historic crime figures of the era interacting and intersecting with each other. Found the ending to be a little lackluster imo. I also tended to like other characters over Nucky who's the main character like Lucky, Richard Harrow, Jimmy and Al Capone. Absolutely hated Margaret (practically all her scenes are skippable)",
+    "cover": "/covers/boardwalk-empire-2010.jpg"
   },
   {
     "id": "peaky-blinders-2013",
@@ -173,7 +175,8 @@
     "year": 2013,
     "rating": 9,
     "dateReviewed": "2026-10-18",
-    "take": "First season starts off a little slow but it's hard to not love Tommy or the rest of the gang, such an interesting story (did dislike the Luca Changretta season bc I found it to be such a fake unrealistic version of what the mob was actually like) otherwise amazing show, great acting, great characters, great story."
+    "take": "First season starts off a little slow but it's hard to not love Tommy or the rest of the gang, such an interesting story (did dislike the Luca Changretta season bc I found it to be such a fake unrealistic version of what the mob was actually like) otherwise amazing show, great acting, great characters, great story.",
+    "cover": "/covers/peaky-blinders-2013.jpg"
   },
   {
     "id": "top-boy-2019",
@@ -184,7 +187,8 @@
     "year": 2019,
     "rating": 8,
     "dateReviewed": "2026-10-18",
-    "take": "Never watched the original but really enjoyed this story about what it's like truly selling on the road. Not a 10 bc of what they did to my boy Jamie, also felt like the show struggled after he left"
+    "take": "Never watched the original but really enjoyed this story about what it's like truly selling on the road. Not a 10 bc of what they did to my boy Jamie, also felt like the show struggled after he left",
+    "cover": "/covers/top-boy-2019.jpg"
   },
   {
     "id": "snowfall-2017",
@@ -195,7 +199,8 @@
     "year": 2017,
     "rating": 9,
     "dateReviewed": "2026-10-18",
-    "take": "Franklin Saint what a character. Watching his rise and fall during the 80s crack epidemic is amazing. I disliked the later seasons truth be told but still the show is so bingeable. Made me a fan of Damson Idris and his acting especially all the scenes you see on TikTok all the time. Criminally underrated"
+    "take": "Franklin Saint what a character. Watching his rise and fall during the 80s crack epidemic is amazing. I disliked the later seasons truth be told but still the show is so bingeable. Made me a fan of Damson Idris and his acting especially all the scenes you see on TikTok all the time. Criminally underrated",
+    "cover": "/covers/snowfall-2017.jpg"
   },
   {
     "id": "game-of-thrones-2011",
@@ -206,7 +211,8 @@
     "year": 2011,
     "rating": 9.5,
     "dateReviewed": "2026-10-18",
-    "take": "For the first 5 or 6 seasons this show is peak the closest thing to One Piece shot in the real world, but the fall off is something else once the show outpaced the books, hated the ending. Doubly hated once I read the books after and realized how badly they screwed up"
+    "take": "For the first 5 or 6 seasons this show is peak the closest thing to One Piece shot in the real world, but the fall off is something else once the show outpaced the books, hated the ending. Doubly hated once I read the books after and realized how badly they screwed up",
+    "cover": "/covers/game-of-thrones-2011.jpg"
   },
   {
     "id": "the-blacklist-2013",
@@ -217,7 +223,8 @@
     "year": 2013,
     "rating": 7,
     "dateReviewed": "2026-10-18",
-    "take": "First couple seasons are so fun but the show quickly gets repetitive. James Spader carries"
+    "take": "First couple seasons are so fun but the show quickly gets repetitive. James Spader carries",
+    "cover": "/covers/the-blacklist-2013.jpg"
   },
   {
     "id": "suits-2011",
@@ -228,7 +235,8 @@
     "year": 2011,
     "rating": 7,
     "dateReviewed": "2026-10-18",
-    "take": "Fun show but quickly gets repetitive, also found out from my lawyer friends that being a lawyer isn't as cool Harvey makes it out to be. Louis Litt is the goat"
+    "take": "Fun show but quickly gets repetitive, also found out from my lawyer friends that being a lawyer isn't as cool Harvey makes it out to be. Louis Litt is the goat",
+    "cover": "/covers/suits-2011.jpg"
   },
   {
     "id": "stranger-things-2016",
@@ -239,7 +247,8 @@
     "year": 2016,
     "rating": 7.5,
     "dateReviewed": "2026-10-18",
-    "take": "The first couple seasons were so good but the timing between seasons made it hard to follow along and the ending was meh to say the least"
+    "take": "The first couple seasons were so good but the timing between seasons made it hard to follow along and the ending was meh to say the least",
+    "cover": "/covers/stranger-things-2016.jpg"
   },
   {
     "id": "narcos-2015",
@@ -250,7 +259,8 @@
     "year": 2015,
     "rating": 8,
     "dateReviewed": "2026-10-18",
-    "take": "A half-documentary half-drama following the Medellin and Cali Cartels, found out it isn't too accurate but still really fun and you can pick up a bit"
+    "take": "A half-documentary half-drama following the Medellin and Cali Cartels, found out it isn't too accurate but still really fun and you can pick up a bit",
+    "cover": "/covers/narcos-2015.jpg"
   },
   {
     "id": "money-heist-2017",
@@ -261,7 +271,8 @@
     "year": 2017,
     "rating": 7,
     "dateReviewed": "2026-10-18",
-    "take": "Super fun watch especially the first couple seasons but it quickly gets too big for it's own world (they have to keep pulling off crazier and crazier heists but that only works for how long?)"
+    "take": "Super fun watch especially the first couple seasons but it quickly gets too big for it's own world (they have to keep pulling off crazier and crazier heists but that only works for how long?)",
+    "cover": "/covers/money-heist-2017.jpg"
   },
   {
     "id": "lucifer-2016",
@@ -272,7 +283,8 @@
     "year": 2016,
     "rating": 6,
     "dateReviewed": "2026-10-18",
-    "take": "Fun show but a little repetitive and probably a little haram to watch a show where the protagonist is literally Satan"
+    "take": "Fun show but a little repetitive and probably a little haram to watch a show where the protagonist is literally Satan",
+    "cover": "/covers/lucifer-2016.jpg"
   },
   {
     "id": "all-american-2018",
@@ -283,7 +295,8 @@
     "year": 2018,
     "rating": 6,
     "dateReviewed": "2026-10-18",
-    "take": "First season or two were amazing but once they graduated college and the NFL and all that was too much (why can't it just be a show about an amazing wide receiver, why does he literally have to be the main character of the whole world) trying to make Spencer Him just makes it cringey"
+    "take": "First season or two were amazing but once they graduated college and the NFL and all that was too much (why can't it just be a show about an amazing wide receiver, why does he literally have to be the main character of the whole world) trying to make Spencer Him just makes it cringey",
+    "cover": "/covers/all-american-2018.jpg"
   },
   {
     "id": "naruto-2002",
@@ -294,7 +307,8 @@
     "year": 2002,
     "rating": 7,
     "dateReviewed": "2026-10-18",
-    "take": "I loved the original Naruto and most of Shippuden until it betrayed itself in the end. It was about how anyone can accomplish their dreams regardless of where they come from but quickly became about how OP the Uchiha are, and how Naruto is the reincarnation of Space Jesus' son, still so cool animation wise and fights"
+    "take": "I loved the original Naruto and most of Shippuden until it betrayed itself in the end. It was about how anyone can accomplish their dreams regardless of where they come from but quickly became about how OP the Uchiha are, and how Naruto is the reincarnation of Space Jesus' son, still so cool animation wise and fights",
+    "cover": "/covers/naruto-2002.jpg"
   },
   {
     "id": "ozark-2017",
@@ -305,7 +319,8 @@
     "year": 2017,
     "rating": 7,
     "dateReviewed": "2026-10-18",
-    "take": "I really liked Marty and the show initially but as it evolved it became quite boring I felt like, and the ending sucked. I really only finished it because I couldn't not finish it"
+    "take": "I really liked Marty and the show initially but as it evolved it became quite boring I felt like, and the ending sucked. I really only finished it because I couldn't not finish it",
+    "cover": "/covers/ozark-2017.jpg"
   },
   {
     "id": "hunter-x-hunter-2011",
@@ -316,7 +331,8 @@
     "year": 2011,
     "rating": 9,
     "dateReviewed": "2026-10-18",
-    "take": "Maybe the only world that could compete with One Piece and A Song of Ice And Fire in terms of worldbuilding sadly Togashi is forever sick, such a good show. Chimera Ant arc was just hard to watch because of all the details in it nen-wise"
+    "take": "Maybe the only world that could compete with One Piece and A Song of Ice And Fire in terms of worldbuilding sadly Togashi is forever sick, such a good show. Chimera Ant arc was just hard to watch because of all the details in it nen-wise",
+    "cover": "/covers/hunter-x-hunter-2011.jpg"
   },
   {
     "id": "vinland-saga-2019",
@@ -327,7 +343,8 @@
     "year": 2019,
     "rating": 8,
     "dateReviewed": "2026-10-18",
-    "take": "Loved watching Thorfinn's progression as a character, first couple seasons were awesome."
+    "take": "Loved watching Thorfinn's progression as a character, first couple seasons were awesome.",
+    "cover": "/covers/vinland-saga-2019.jpg"
   },
   {
     "id": "avatar-the-last-airbender-2005",
@@ -338,7 +355,8 @@
     "year": 2005,
     "rating": 10,
     "dateReviewed": "2026-10-18",
-    "take": "Probably carried by nostalgia but such a good show from start to finish"
+    "take": "Probably carried by nostalgia but such a good show from start to finish",
+    "cover": "/covers/avatar-the-last-airbender-2005.jpg"
   },
   {
     "id": "hey-arnold-1996",
@@ -349,7 +367,8 @@
     "year": 1996,
     "rating": 10,
     "dateReviewed": "2026-10-18",
-    "take": "Another nostalgia carry but such a good show to sit back and enjoy even in mid-20s"
+    "take": "Another nostalgia carry but such a good show to sit back and enjoy even in mid-20s",
+    "cover": "/covers/hey-arnold-1996.jpg"
   },
   {
     "id": "one-piece-1999",
@@ -360,7 +379,8 @@
     "year": 1999,
     "rating": 7,
     "dateReviewed": "2026-10-18",
-    "take": "The story is great the anime is mid, just because they stretch it out sooo long and it's tough to watch"
+    "take": "The story is great the anime is mid, just because they stretch it out sooo long and it's tough to watch",
+    "cover": "/covers/one-piece-1999.jpg"
   },
   {
     "id": "house-of-the-dragon-2022",
@@ -371,7 +391,8 @@
     "year": 2022,
     "rating": 7,
     "dateReviewed": "2026-10-18",
-    "take": "Being generous bc it's A Song of Ice and Fire but this show isn't as good as the original, still a fun watch though too much time between seasons tho"
+    "take": "Being generous bc it's A Song of Ice and Fire but this show isn't as good as the original, still a fun watch though too much time between seasons tho",
+    "cover": "/covers/house-of-the-dragon-2022.jpg"
   },
   {
     "id": "tokyo-vice-2022",
@@ -382,7 +403,8 @@
     "year": 2022,
     "rating": 8,
     "dateReviewed": "2026-10-18",
-    "take": "Follows the book but I watched this first. Really good show I liked the ending more in the show than real life LOL"
+    "take": "Follows the book but I watched this first. Really good show I liked the ending more in the show than real life LOL",
+    "cover": "/covers/tokyo-vice-2022.jpg"
   },
   {
     "id": "criminal-minds-2005",
@@ -393,7 +415,8 @@
     "year": 2005,
     "rating": 7,
     "dateReviewed": "2026-10-18",
-    "take": "Perfect to show to just sit back and watch"
+    "take": "Perfect to show to just sit back and watch",
+    "cover": "/covers/criminal-minds-2005.jpg"
   },
   {
     "id": "south-park-1997",
@@ -404,7 +427,8 @@
     "year": 1997,
     "rating": 8,
     "dateReviewed": "2026-10-18",
-    "take": "Hilarious show nothing else to say"
+    "take": "Hilarious show nothing else to say",
+    "cover": "/covers/south-park-1997.jpg"
   },
   {
     "id": "family-guy-1999",
@@ -415,7 +439,8 @@
     "year": 1999,
     "rating": 7,
     "dateReviewed": "2026-10-18",
-    "take": "First few seasons are amazing but the show gets worse as it ages, last couple seasons are unwatchable"
+    "take": "First few seasons are amazing but the show gets worse as it ages, last couple seasons are unwatchable",
+    "cover": "/covers/family-guy-1999.jpg"
   },
   {
     "id": "the-hundred-years-war-on-palestine-2020",
@@ -438,7 +463,8 @@
     "year": 2005,
     "rating": 7.5,
     "dateReviewed": "2026-10-18",
-    "take": "First two maybe 3 seasons are amazing but again the scope of the show keeps getting bigger and bigger to the point where it feels a little unrealistic"
+    "take": "First two maybe 3 seasons are amazing but again the scope of the show keeps getting bigger and bigger to the point where it feels a little unrealistic",
+    "cover": "/covers/prison-break-2005.jpg"
   },
   {
     "id": "friends-1994",
@@ -450,6 +476,55 @@
     "rating": 9,
     "dateReviewed": "2026-10-18",
     "current": true,
-    "take": "Never was into sitcoms but really enjoying this for the first time despite being insanely late"
+    "take": "Never was into sitcoms but really enjoying this for the first time despite being insanely late",
+    "cover": "/covers/friends-1994.jpg"
+  },
+  {
+    "id": "dragon-ball-1986",
+    "offset": 41,
+    "title": "Dragon Ball",
+    "type": "tv",
+    "creator": "Fuji TV",
+    "year": 1986,
+    "rating": 9,
+    "dateReviewed": "2026-10-18",
+    "take": "Super nostalgic and probably my start into anime watching Goku as a kid while different is so amazing",
+    "cover": "/covers/dragon-ball-1986.jpg"
+  },
+  {
+    "id": "dragon-ball-z-1989",
+    "offset": 42,
+    "title": "Dragon Ball Z",
+    "type": "tv",
+    "creator": "Fuji TV",
+    "year": 1989,
+    "rating": 10,
+    "dateReviewed": "2026-10-18",
+    "take": "The father of the Big 3 and rightfully so a must watch for anime fans",
+    "cover": "/covers/dragon-ball-z-1989.jpg"
+  },
+  {
+    "id": "dragon-ball-gt-1996",
+    "offset": 43,
+    "title": "Dragon Ball GT",
+    "type": "tv",
+    "creator": "Fuji TV",
+    "year": 1996,
+    "rating": 6,
+    "dateReviewed": "2026-10-18",
+    "take": "No longer canon but still a decent watch, it was nice seeing Goku as a kid again",
+    "cover": "/covers/dragon-ball-gt-1996.jpg"
+  },
+  {
+    "id": "dragon-ball-super-2015",
+    "offset": 44,
+    "title": "Dragon Ball Super",
+    "type": "tv",
+    "creator": "Fuji TV",
+    "year": 2015,
+    "rating": 8,
+    "dateReviewed": "2026-10-18",
+    "take": "Really enjoyed this sadly it's still on hiatus almost 8 years later",
+    "cover": "/covers/dragon-ball-super-2015.jpg"
   }
 ]

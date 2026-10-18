@@ -30,6 +30,12 @@ export default function SiteFooter() {
           <PauseStream />
           <ThemeToggle />
         </div>
+        {/* Required by the TMDB API terms, since TV/movie posters come from TMDB. */}
+        <p className={styles.credit}>
+          Book covers from <a href="https://openlibrary.org">Open Library</a>. TV and movie posters
+          from <a href="https://www.themoviedb.org">TMDB</a>; this site uses the TMDB API but is not
+          endorsed or certified by TMDB.
+        </p>
       </Container>
     </footer>
   );
