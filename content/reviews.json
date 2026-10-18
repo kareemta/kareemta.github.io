@@ -526,5 +526,101 @@
     "dateReviewed": "2026-10-18",
     "take": "Really enjoyed this sadly it's still on hiatus almost 8 years later",
     "cover": "/covers/dragon-ball-super-2015.jpg"
+  },
+  {
+    "id": "bleach-2004",
+    "offset": 45,
+    "title": "Bleach",
+    "type": "tv",
+    "creator": "TV Tokyo",
+    "year": 2004,
+    "rating": 8,
+    "dateReviewed": "2026-10-18",
+    "take": "Really good anime only part I dislike is the beginning which took me forever to get through",
+    "cover": "/covers/bleach-2004.jpg"
+  },
+  {
+    "id": "black-clover-2017",
+    "offset": 46,
+    "title": "Black Clover",
+    "type": "tv",
+    "creator": "TV Tokyo",
+    "year": 2017,
+    "rating": 7,
+    "dateReviewed": "2026-10-18",
+    "take": "Just an average good anime left on an amazing cliff hanger",
+    "cover": "/covers/black-clover-2017.jpg"
+  },
+  {
+    "id": "fairy-tail-2009",
+    "offset": 47,
+    "title": "Fairy Tail",
+    "type": "tv",
+    "creator": "TV Tokyo",
+    "year": 2009,
+    "rating": 7,
+    "dateReviewed": "2026-10-18",
+    "take": "Same as Black Clover nothing special but a good story nonetheless never got to finish it",
+    "cover": "/covers/fairy-tail-2009.jpg"
+  },
+  {
+    "id": "jujutsu-kaisen-2020",
+    "offset": 48,
+    "title": "Jujutsu Kaisen",
+    "type": "tv",
+    "creator": "MBS",
+    "year": 2020,
+    "rating": 6,
+    "dateReviewed": "2026-10-18",
+    "take": "I find the power system to be a little confusing, the fights are cool but the story overall is a little weak imo",
+    "cover": "/covers/jujutsu-kaisen-2020.jpg"
+  },
+  {
+    "id": "demon-slayer-2019",
+    "offset": 49,
+    "title": "Demon Slayer",
+    "type": "tv",
+    "creator": "Tokyo MX",
+    "year": 2019,
+    "rating": 5,
+    "dateReviewed": "2026-10-18",
+    "take": "Weak story cool fights thats about it",
+    "cover": "/covers/demon-slayer-2019.jpg"
+  },
+  {
+    "id": "yu-yu-hakusho-1992",
+    "offset": 50,
+    "title": "Yu Yu Hakusho",
+    "type": "tv",
+    "creator": "Fuji TV",
+    "year": 1992,
+    "rating": 9,
+    "dateReviewed": "2026-10-18",
+    "take": "Where Togashi started and a perfect old school anime",
+    "cover": "/covers/yu-yu-hakusho-1992.jpg"
+  },
+  {
+    "id": "cowboy-bebop-1998",
+    "offset": 51,
+    "title": "Cowboy Bebop",
+    "type": "tv",
+    "creator": "TV Tokyo",
+    "year": 1998,
+    "rating": 9,
+    "dateReviewed": "2026-10-18",
+    "take": "Cozy anime that you can just sit down watch and enjoy the story is great too",
+    "cover": "/covers/cowboy-bebop-1998.jpg"
+  },
+  {
+    "id": "blue-lock-2022",
+    "offset": 52,
+    "title": "Blue Lock",
+    "type": "tv",
+    "creator": "TV Asahi",
+    "year": 2022,
+    "rating": 6,
+    "dateReviewed": "2026-10-18",
+    "take": "The story is amazing but the animation is notoriously bad",
+    "cover": "/covers/blue-lock-2022.jpg"
   }
 ]
