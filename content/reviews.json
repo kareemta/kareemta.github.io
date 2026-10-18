@@ -660,18 +660,6 @@
     "cover": "/covers/solo-leveling-2024.jpg"
   },
   {
-    "id": "star-wars-rebels-2014",
-    "offset": 56,
-    "title": "Star Wars Rebels",
-    "type": "tv",
-    "creator": "Disney XD",
-    "year": 2014,
-    "rating": 6,
-    "dateReviewed": "2026-10-18",
-    "take": "Doesn't carry the same magic (same for the entirety of the new trilogy imo)",
-    "cover": "/covers/star-wars-rebels-2014.jpg"
-  },
-  {
     "id": "akira-1988",
     "offset": 57,
     "title": "Akira",
@@ -934,5 +922,41 @@
     "dateReviewed": "2026-10-18",
     "take": "Crazy suspenseful movie about two undercovers at the same time, a cop in the mob and a mobster as a cop",
     "cover": "/covers/the-departed-2006.jpg"
+  },
+  {
+    "id": "obsession-2026",
+    "offset": 79,
+    "title": "Obsession",
+    "type": "film",
+    "creator": "Curry Barker",
+    "year": 2026,
+    "rating": 9,
+    "dateReviewed": "2026-10-18",
+    "take": "An actually scary movie not because it's scary but just unnerving at times that makes your skin crawl",
+    "cover": "/covers/obsession-2026.jpg"
+  },
+  {
+    "id": "zodiac-2007",
+    "offset": 80,
+    "title": "Zodiac",
+    "type": "film",
+    "creator": "David Fincher",
+    "year": 2007,
+    "rating": 9,
+    "dateReviewed": "2026-10-18",
+    "take": "Follows a reporter's obsession with the real life serial killer, very suspenseful and a bit unnerving",
+    "cover": "/covers/zodiac-2007.jpg"
+  },
+  {
+    "id": "the-social-network-2010",
+    "offset": 81,
+    "title": "The Social Network",
+    "type": "film",
+    "creator": "David Fincher",
+    "year": 2010,
+    "rating": 9,
+    "dateReviewed": "2026-10-18",
+    "take": "Follows Mark Zuckerberg's creation of Facebook a fantastic story",
+    "cover": "/covers/the-social-network-2010.jpg"
   }
 ]
