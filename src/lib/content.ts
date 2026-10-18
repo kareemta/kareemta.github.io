@@ -166,6 +166,8 @@ export const reviewSchema = z
       .string()
       .regex(/^(\d{9}[\dX]|\d{13})$/, "ISBN must be 10 or 13 digits, no dashes")
       .optional(),
+    /** Currently reading / watching: pinned above the list on its type's page. */
+    current: z.boolean().optional(),
     placeholder,
   })
   .superRefine(requireRealYear);

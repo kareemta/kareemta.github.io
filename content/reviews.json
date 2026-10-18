@@ -139,7 +139,8 @@
     "year": 2026,
     "rating": 9,
     "dateReviewed": "2026-10-18",
-    "take": "Current read: A bit skeptical of self-help books but personally have found this one to be very helpful in uncovering how I view myself, and helping me reconcile and heal the negative aspects of self-image, highly recommend"
+    "current": true,
+    "take": "A bit skeptical of self-help books but personally have found this one to be very helpful in uncovering how I view myself, and helping me reconcile and heal the negative aspects of self-image, highly recommend"
   },
   {
     "id": "the-sopranos-1999",
@@ -448,6 +449,7 @@
     "year": 1994,
     "rating": 9,
     "dateReviewed": "2026-10-18",
-    "take": "Current watch: Never was into sitcoms but really enjoying this for the first time despite being insanely late"
+    "current": true,
+    "take": "Never was into sitcoms but really enjoying this for the first time despite being insanely late"
   }
 ]

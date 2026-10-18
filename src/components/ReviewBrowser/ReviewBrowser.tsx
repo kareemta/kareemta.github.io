@@ -59,7 +59,7 @@ export default function ReviewBrowser({ reviews, type }: ReviewBrowserProps) {
       <ol className={styles.list}>
         {shown.map((review) => (
           <li key={review.id}>
-            <ReviewCard review={review} headingLevel={2} />
+            <ReviewCard review={review} headingLevel={3} />
           </li>
         ))}
       </ol>

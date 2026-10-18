@@ -1,7 +1,13 @@
 import Link from "next/link";
 import ReviewCover from "@/components/ReviewCover/ReviewCover";
 import type { Review } from "@/lib/content";
-import { formatRating, offsetLabel, REVIEW_TYPE_LABEL, reviewTopic } from "@/lib/format";
+import {
+  currentLabels,
+  formatRating,
+  offsetLabel,
+  REVIEW_TYPE_LABEL,
+  reviewTopic,
+} from "@/lib/format";
 import styles from "./ReviewCard.module.css";
 
 type ReviewCardProps = {
@@ -33,6 +39,9 @@ export default function ReviewCard({
     <article className={compact ? `${styles.card} ${styles.compact}` : styles.card}>
       <p className={styles.meta}>
         <span className={styles.badge}>{REVIEW_TYPE_LABEL[review.type]}</span>
+        {review.current && (
+          <span className={styles.nowBadge}>{currentLabels(review.type).badge}</span>
+        )}
         <span className={styles.stream} aria-hidden="true">
           {offsetLabel(review.offset)} · {reviewTopic(review.type)} · {review.dateReviewed}
         </span>

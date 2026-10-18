@@ -23,11 +23,19 @@ export function reviewTopic(type: ReviewType): string {
 }
 
 /** One page per review type: where it lives and what it's called. */
-export const REVIEW_TYPE_PAGE: Record<ReviewType, { href: string; title: string }> = {
-  book: { href: "/books/", title: "Books" },
-  film: { href: "/movies/", title: "Movies" },
-  tv: { href: "/tv/", title: "TV" },
-};
+export const REVIEW_TYPE_PAGE: Record<ReviewType, { href: string; title: string; allTitle: string }> =
+  {
+    book: { href: "/books/", title: "Books", allTitle: "All books" },
+    film: { href: "/movies/", title: "Movies", allTitle: "All movies" },
+    tv: { href: "/tv/", title: "TV", allTitle: "All shows" },
+  };
+
+/** Labels for reviews marked `current` (in progress). Books are read; the rest are watched. */
+export function currentLabels(type: ReviewType) {
+  return type === "book"
+    ? { badge: "Now reading", heading: "Currently reading", topic: "status.reading" }
+    : { badge: "Now watching", heading: "Currently watching", topic: "status.watching" };
+}
 
 /** "book review(s)", "movie review(s)", "TV review(s)" for count text. */
 export function reviewNoun(type: ReviewType, count: number): string {
