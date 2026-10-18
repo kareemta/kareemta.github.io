@@ -20,6 +20,7 @@ const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">"
 // Dark theme tokens from src/app/globals.css.
 const T = { bg: "#0d1117", ink: "#e6eaf0", muted: "#8b95a5", line: "#2a313c", accent: "#7c9bff" };
 
+// Only as many lines as fit above the name (it starts around y=400).
 const LOG = [
   ["consumer.lag", "group=site-feed partition=3 lag=12"],
   ["checkpoint.committed", "topic=events offset=48211"],
@@ -28,11 +29,6 @@ const LOG = [
   ["watermark.advanced", "topic=travel delay=240ms"],
   ["heartbeat", "group=notifier status=ok"],
   ["schema.validated", "topic=reviews version=4 ok"],
-  ["producer.ack", "topic=events acks=all latency=9ms"],
-  ["segment.rolled", "topic=reviews partition=7"],
-  ["consumer.lag", "group=events-consumer partition=1 lag=4"],
-  ["checkpoint.committed", "topic=travel offset=90377"],
-  ["batch.flushed", "records=128 bytes=24KiB"],
 ];
 const logHtml = LOG.map(
   ([topic, msg], i) =>
@@ -44,14 +40,15 @@ const ogHtml = `<!doctype html><html><head><meta charset="utf-8">
 <style>
   * { box-sizing: border-box; margin: 0; }
   body { width: 1200px; height: 630px; background: ${T.bg}; color: ${T.ink}; overflow: hidden; position: relative; font-family: "JetBrains Mono", monospace; }
-  .log { position: absolute; inset: 40px 40px auto 520px; font-size: 18px; line-height: 2.05; color: ${T.ink}; opacity: 0.16; white-space: nowrap;
-         -webkit-mask-image: linear-gradient(to right, transparent, #000 25%); }
+  /* Log texture: top-right only, well clear of the name; starts inside the frame
+     (no cut-off timestamps) and fades out toward the right edge. */
+  .log { position: absolute; top: 44px; left: 560px; right: 0; font-size: 18px; line-height: 2.05; color: ${T.ink}; opacity: 0.16;
+         white-space: nowrap; overflow: hidden; -webkit-mask-image: linear-gradient(to right, #000 70%, transparent); }
   .log span { margin-right: 22px; } .log b { font-weight: 400; color: ${T.accent}; margin-right: 22px; }
   .card { position: absolute; left: 72px; top: 64px; bottom: 64px; display: flex; flex-direction: column; justify-content: space-between; }
   .mark { font-size: 34px; font-weight: 700; } .mark i { font-style: normal; color: ${T.accent}; }
-  h1 { font-family: "Bricolage Grotesque", sans-serif; font-size: 100px; line-height: 1; letter-spacing: -0.02em; white-space: nowrap; width: fit-content;
-       background: ${T.bg}; box-shadow: 0 0 24px 18px ${T.bg}; }
-  .role { margin-top: 28px; font-size: 32px; color: ${T.accent}; background: ${T.bg}; box-shadow: 0 0 18px 12px ${T.bg}; width: fit-content; }
+  h1 { font-family: "Bricolage Grotesque", sans-serif; font-size: 100px; line-height: 1; letter-spacing: -0.02em; white-space: nowrap; }
+  .role { margin-top: 28px; font-size: 32px; color: ${T.accent}; }
   .rule { position: absolute; left: 0; right: 0; bottom: 0; height: 8px; background: ${T.accent}; }
 </style></head><body>
   <div class="log" aria-hidden="true">${logHtml}</div>

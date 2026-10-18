@@ -12,6 +12,7 @@ import {
   publishable,
   type Review,
 } from "@/lib/content";
+import { sortReviews } from "@/lib/reviews";
 import { formatRating, offsetLabel, REVIEW_TYPE_LABEL, REVIEW_TYPE_PAGE, reviewTopic } from "@/lib/format";
 
 export type FeedKind = "review" | "trip";
@@ -45,9 +46,9 @@ const byDateDesc = (a: FeedEvent, b: FeedEvent) => (b.date ?? "").localeCompare(
 export function getLatestEvents(): FeedEvent[] {
   const events: FeedEvent[] = [];
 
-  const review = publishable(getReviews()).toSorted((a, b) =>
-    b.dateReviewed.localeCompare(a.dateReviewed),
-  )[0];
+  // Same order as the review pages: newest date first, ties go to the higher offset
+  // (the most recently added).
+  const review = sortReviews(publishable(getReviews()), "date")[0];
   if (review) {
     events.push({
       kind: "review",

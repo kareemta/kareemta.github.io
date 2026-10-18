@@ -6,7 +6,11 @@ import { Bricolage_Grotesque, JetBrains_Mono, Public_Sans } from "next/font/goog
 
 export const fontDisplay = Bricolage_Grotesque({
   subsets: ["latin"],
-  display: "swap",
+  // "optional": the name/titles are the LCP element; swapping in the display font
+  // late on slow phones pushed LCP past 3.5s. It's preloaded, so it is used on
+  // normal connections and on every later visit; on a slow first visit the
+  // size-matched fallback stays instead of a late swap.
+  display: "optional",
   variable: "--font-bricolage",
 });
 

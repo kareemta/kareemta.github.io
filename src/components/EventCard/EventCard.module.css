@@ -23,7 +23,11 @@
   font-size: var(--text-xs);
 }
 
+/* Same bordered badge as ReviewCard's type badge. */
 .label {
+  padding: 0.1em 0.5em;
+  border: var(--border-width) solid var(--color-muted);
+  border-radius: var(--radius-sm);
   color: var(--color-ink);
   font-weight: var(--weight-medium);
 }

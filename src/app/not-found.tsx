@@ -7,8 +7,10 @@ import styles from "./not-found.module.css";
 export const metadata: Metadata = {
   title: "Page not found",
   robots: { index: false },
-  // Don't inherit the home page's canonical URL from the layout.
+  // Don't inherit the home page's canonical URL or share-card tags from the layout.
   alternates: { canonical: null },
+  openGraph: null,
+  twitter: null,
 };
 
 /** Site-styled 404 (static export writes it to out/404.html). */

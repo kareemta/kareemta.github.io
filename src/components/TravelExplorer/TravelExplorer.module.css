@@ -16,11 +16,45 @@
 }
 
 /* Reserve the globe's square so the page doesn't jump while three.js loads. */
-.globeLoading {
+.globeSlotWrap {
+  width: 100%;
+}
+
+/* Same box as the real globe (TravelGlobe .wrap), so nothing moves when it loads. */
+.globeSlot {
+  position: relative;
+  display: grid;
+  place-items: center;
   width: 100%;
   max-width: 35rem;
   aspect-ratio: 1;
   margin-inline: auto;
+}
+
+/* The sphere as the globe draws it at its default zoom (~78% of the box), no land. */
+.globeDisc {
+  width: 78%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--globe-sphere);
+}
+
+/* Opaque button over the disc (text never sits on the log stream). */
+.showGlobe {
+  position: absolute;
+  min-height: 2.75rem;
+  padding: 0 var(--space-5);
+  border: var(--border-width) solid var(--color-muted);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.showGlobe:hover {
+  border-color: var(--color-accent);
 }
 
 .fallback {

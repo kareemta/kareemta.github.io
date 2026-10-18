@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { randomInfraLine, type LogLine } from "@/lib/logLines";
+import { whenLoadedAndIdle } from "@/lib/idle";
 import { isStreamFrozen, subscribeStreamFrozen } from "@/lib/stream";
 import styles from "./LogStream.module.css";
 
@@ -11,7 +12,9 @@ const SPEED_PX_PER_S = 20;
 const SPAWN_MIN_S = 0.8;
 const SPAWN_MAX_S = 1.5;
 const CONTENT_SHARE = 0.3; // fraction of lines taken from real content, when there is any
-const FRAME_MS = 1000 / 30 - 4; // redraw at most ~30 fps (with slack for 60 Hz jitter): plenty for 20 px/s
+// ~15 fps (with slack for 60 Hz jitter). At 20 px/s that is ~1.3 px per frame, and
+// lines are snapped to whole device pixels, so the drift stays crisp, not steppy.
+const FRAME_MS = 1000 / 15 - 4;
 const MAX_DT_S = 0.1; // a long frame never makes lines jump
 const PAD_X = 16;
 const MAX_DPR = 2; // sharper than 2x costs fill rate for no visible gain on faint text
@@ -122,6 +125,11 @@ export default function LogStreamCanvas({ lines }: { lines: LogLine[] }) {
 
     /** True once the canvas has had a real size and the first screen was filled. */
     let ready = false;
+    /** The animation only starts after page load + idle (the first static frame draws right away). */
+    let mayAnimate = false;
+    let dpr = 1;
+    /** Stream time at the last draw; frames that moved less than a device pixel are skipped. */
+    let drawnAtT = -Infinity;
 
     /**
      * Apply a new CSS size (from the ResizeObserver) or a new pixel ratio. Sizes under
@@ -130,7 +138,7 @@ export default function LogStreamCanvas({ lines }: { lines: LogLine[] }) {
      */
     const applySize = (w: number, h: number) => {
       if (w < 2 || h < 2) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+      dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
       const oldHeight = height;
       width = w;
       height = h;
@@ -149,11 +157,13 @@ export default function LogStreamCanvas({ lines }: { lines: LogLine[] }) {
     };
 
     const draw = () => {
+      drawnAtT = t;
       ctx.clearRect(0, 0, width, height);
       const columns = Math.max(1, Math.floor((width - PAD_X) / (charW * LINE_COLS)));
       const columnW = (width - PAD_X) / columns;
       for (const row of rows) {
-        const y = height - (t - row.spawnT) * SPEED_PX_PER_S;
+        // Snap to whole device pixels: crisp glyphs at a low frame rate.
+        const y = Math.round((height - (t - row.spawnT) * SPEED_PX_PER_S) * dpr) / dpr;
         if (y < -FONT_PX || y > height + FONT_PX) continue;
         const x = PAD_X + Math.floor(row.lane * columns) * columnW;
         ctx.fillStyle = colors.ink;
@@ -186,7 +196,7 @@ export default function LogStreamCanvas({ lines }: { lines: LogLine[] }) {
       const dt = lastTs ? Math.min((ts - lastTs) / 1000, MAX_DT_S) : 0;
       lastTs = ts;
       step(dt);
-      draw();
+      if ((t - drawnAtT) * SPEED_PX_PER_S * dpr >= 1) draw();
     };
     const start = () => {
       if (rafId) return;
@@ -198,7 +208,7 @@ export default function LogStreamCanvas({ lines }: { lines: LogLine[] }) {
       rafId = 0;
     };
     const sync = () => {
-      if (!ready || isStreamFrozen() || document.hidden) stop();
+      if (!ready || !mayAnimate || isStreamFrozen() || document.hidden) stop();
       else start();
     };
 
@@ -238,7 +248,12 @@ export default function LogStreamCanvas({ lines }: { lines: LogLine[] }) {
     document.addEventListener("visibilitychange", sync);
     const unsubscribeFrozen = subscribeStreamFrozen(sync);
 
-    // First size, fill and start happen in the first ResizeObserver callback.
+    // First size and fill happen in the first ResizeObserver callback; motion waits
+    // until the page has loaded and the browser is idle.
+    const cancelIdle = whenLoadedAndIdle(() => {
+      mayAnimate = true;
+      sync();
+    });
 
     // Redraw once the web font is ready so the first frame isn't stuck in a fallback font.
     let alive = true;
@@ -250,6 +265,7 @@ export default function LogStreamCanvas({ lines }: { lines: LogLine[] }) {
 
     return () => {
       alive = false;
+      cancelIdle();
       stop();
       darkQuery.removeEventListener("change", onTheme);
       themeObserver.disconnect();
